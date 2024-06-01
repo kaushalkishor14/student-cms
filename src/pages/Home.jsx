@@ -1,12 +1,19 @@
-import { SidebarDesktop } from '@/components/sidebar-desktop'
-import React from 'react'
+import { SidebarDesktop } from "@/components/sidebar-desktop";
+import React from "react";
 
 function Home() {
   return (
-    <div className='ml-[300px] mt-4 dark font-bold text-pretty'>
-      <SidebarDesktop/> 
-      homepage</div>
-  )
+    <div className=" flex   w-full dark font-bold  text-pretty">
+
+          <div className="min-h-screen" >
+         <SidebarDesktop />
+        
+         </div>
+         Home
+    
+    </div>
+       
+  );
 }
 
-export default Home
+export default Home;
