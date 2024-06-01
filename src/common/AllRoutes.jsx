@@ -8,9 +8,10 @@ function AllRoutes() {
   return (
     <Routes>
       <>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/sign-up" element={<SingUp />} />
+        <Route path="/signup" element={<SingUp />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </>
     </Routes>
   );
