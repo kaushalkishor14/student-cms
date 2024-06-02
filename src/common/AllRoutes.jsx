@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import LoginPage from "../pages/LoginPage";
 import SingUp from "@/pages/Sing-up";
-import StudentPage from "@/pages/StudentPage";
+import StudentPage from "@/pages/users/StudentPage";
 
 function AllRoutes() {
   return (
