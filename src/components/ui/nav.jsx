@@ -1,7 +1,3 @@
-
-
-
-
 import { Link } from "react-router-dom"
 import { buttonVariants } from "@/components/ui/button"
 import {
@@ -11,8 +7,6 @@ import {
   TooltipProvider
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-
-
 
 
 export function Nav({ links, isCollapsed }) {
@@ -28,7 +22,7 @@ export function Nav({ links, isCollapsed }) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
-                  href="/"
+                  to={link?.href}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9",
@@ -52,7 +46,7 @@ export function Nav({ links, isCollapsed }) {
           ) : (
             <Link
               key={index}
-              href="/"
+              to={link?.href}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&
