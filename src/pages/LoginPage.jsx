@@ -27,8 +27,8 @@ export default function loginPage() {
  
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center  items-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-8 bg-gray-200 rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Join True Feedback
@@ -47,7 +47,7 @@ export default function loginPage() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <Input {...field} name="email" />
-                  <p className='text-muted text-gray-400 text-sm'>We will send you a verification code</p>
+                  <p className='text-muted text-gray-600 text-sm'>We will send you a verification code</p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -76,14 +76,7 @@ export default function loginPage() {
             </Button>
           </form>
         </Form>
-        <div className="text-center mt-4">
-          <p>
-            Already a member?{' '}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
-              Sign in
-            </Link>
-          </p>
-        </div>
+       
       </div>
     </div>
   );

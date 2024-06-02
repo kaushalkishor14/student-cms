@@ -26,7 +26,7 @@ function StudentPage() {
   return (
     <section className="py-24 w-[100%] mr-10">
       <div className="">
-        <h1 className="font-bold text-3xl">All student Details</h1>
+        <h1 className="font-bold text-3xl mb-4">All student Details</h1>
         <DataTable columns={columns} data={data} />
       </div>
     </section>
