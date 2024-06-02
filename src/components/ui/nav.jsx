@@ -52,7 +52,7 @@ export function Nav({ links, isCollapsed }) {
           ) : (
             <Link
               key={index}
-              href="/"
+              to={link.href}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&

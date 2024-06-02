@@ -1,5 +1,4 @@
 import {
-  
   flexRender,
   getCoreRowModel,
   useReactTable,
