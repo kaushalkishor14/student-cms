@@ -11,12 +11,15 @@ import {
   TooltipProvider
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
-import useLocation from 'react-router-dom'
+
+
 
 
 export function Nav({ links, isCollapsed }) {
 
-  const usepath = useLocation()
+ 
+
+
   return (
     <TooltipProvider>
     <div
@@ -28,8 +31,10 @@ export function Nav({ links, isCollapsed }) {
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
+              {console.log(link, 'kaushal')}
                 <Link
-                  href="link.href"
+                
+                  to={link.href}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9",

@@ -26,7 +26,7 @@ setIsCollapsed(!isCollapsed)
         links={[
           {
             title: "Student",
-            herf: "/",
+            herf: "/student",
             label: "128",
             icon: UsersRound,
             variant: "default",
