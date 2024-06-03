@@ -1,16 +1,31 @@
 import { SidebarButton } from "@/components/sidebar-buttons";
-import { SidebarDesktop } from "@/components/sidebar-desktop";
 import StudentPage from './users/StudentPage';
-import React from "react";
+import React, { useState } from "react";
+import Teacher from "./Teacher";
+import Course from "./Course";
 
 function Home() {
+  const [activeComponent, setActiveComponent] = useState('home');
+
+  function handleComponentChange (){
+    switch (activeComponent) {
+      case 'home':
+        return <StudentPage />;
+      case 'teacher':
+        return <Teacher />;
+      case 'course':
+        return <Course />;
+      default:
+        return <StudentPage />;
+    }
+  }
   return (
     <div className=" w-full flex ">
-      <div className="min-h-screen min-w[80px]" >
-        <SidebarButton />
+      <div className="menubar min-h-screen min-w[80px]" >
+        <SidebarButton active={setActiveComponent} value={activeComponent} />
       </div>
-      <div className="mt-14 font-bold flex justify-center w-full">
-        <StudentPage/>
+      <div className="Content_part_On_right mt-14 font-bold flex justify-center w-full">
+        {handleComponentChange()}
       </div>
     </div>
 

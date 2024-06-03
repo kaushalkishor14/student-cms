@@ -2,20 +2,16 @@
 
 export const columns = [
   {
+    accessorKey: "_id",
+    header: "id",
+  },
+  {
     accessorKey: "name",
     header: "name",
   },
   {
     accessorKey: "email",
     header: "Email",
-  },
-  {
-    accessorKey: "_id",
-    header: "id",
-  },
-  {
-    accessorKey: "isApproved",
-    header: "enrolled",
   },
   {
     accessorKey: "role",
@@ -25,6 +21,10 @@ export const columns = [
     accessorKey: "isApproved",
     header: "status",
   },
+  // {
+  //   accessorKey: "isApproved",
+  //   header: "enrolled",
+  // },
   {
     accessorKey: "action",
     header: "action",
