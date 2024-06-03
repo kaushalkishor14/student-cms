@@ -7,18 +7,15 @@ import axios from "axios";
 
 
 async function getUsers(setData) {
-  let response = await axios.get(params?.production + '/users', {
+  const response = await axios.get(params?.production + '/users', {
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user'))?.accessToken,
       withCredentials: true,
     }
   }
   );
-  
-  console.log(response)
- 
-  setData(response);
-  
+  setData(response?.data?.data?.users);
 }
 
 function StudentPage() {
