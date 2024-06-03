@@ -2,21 +2,13 @@ import { useState } from "react";
 import { Nav } from "./ui/nav";
 import { UsersRound, Users2, User2, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
-import { useAuth } from "@/common/AuthProvider";
-import { useNavigate } from "react-router-dom";
-import { UserLogout } from "@/common/apiHandler";
 
 export function SidebarButton({active, value}) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { logout } = useAuth();
-  const navigate = useNavigate();
+ 
 
   function toggleSidebar() {
     setIsCollapsed(!isCollapsed)
-  }
-
-  function userLoggingOut(){
-    UserLogout(navigate, logout)
   }
 
   return (
@@ -36,8 +28,8 @@ export function SidebarButton({active, value}) {
             href: "/course",
             label: "",
             icon: User2,
-            variant: value === 'course' ? "default" : "ghost",
-            onClick: () => active('course')
+            variant: value === 'subject' ? "default" : "ghost",
+            onClick: () => active('subject')
           },
           {
             title: "Student",
@@ -54,13 +46,6 @@ export function SidebarButton({active, value}) {
             icon: UsersRound,
             variant: value === 'teacher' ? "default" : "ghost",
             onClick: () => active('teacher')
-          },
-          
-          {
-            title: "Logout",
-            icon: UsersRound,
-            variant: "ghost",
-            onClick : userLoggingOut
           },
         ]}
       />

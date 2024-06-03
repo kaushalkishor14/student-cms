@@ -11,7 +11,6 @@ function App() {
       <div className="">
         <AllRoutes />
       </div>
-      <ToastContainer/>
     </>
   );
 }

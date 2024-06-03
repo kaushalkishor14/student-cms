@@ -33,7 +33,6 @@ export default function loginPage() {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    console.log(form.getValues());
     LoginUser(form.getValues(), setIsSubmitting, navigate, login);
   }
 
