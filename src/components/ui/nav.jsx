@@ -31,9 +31,7 @@ export function Nav({ links, isCollapsed }) {
                 <TooltipTrigger asChild>
                   {/* <Select>
                     <SelectTrigger> */}
-                  <Accordion type="single" collapsible>
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger>
+                  
                         <button
                           onClick={link.onClick}
                           className={cn(
@@ -49,13 +47,7 @@ export function Nav({ links, isCollapsed }) {
                           <link.icon className="h-4 w-4" />
                           <span className="sr-only">{link.title}</span>
                         </button>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                     <Button>CSE</Button>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-
+                      
                   {/* / */}
                 </TooltipTrigger>
                 <TooltipContent
@@ -71,6 +63,9 @@ export function Nav({ links, isCollapsed }) {
                 </TooltipContent>
               </Tooltip>
             ) : (
+              <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>
               <button
                 key={index}
                 onClick={link.onClick}
@@ -95,6 +90,13 @@ export function Nav({ links, isCollapsed }) {
                   </span>
                 )}
               </button>
+              </AccordionTrigger>
+                      <AccordionContent>
+                     <Button variant='ghost' className="w-full">CSE</Button>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+
             )
           )}
         </nav>
