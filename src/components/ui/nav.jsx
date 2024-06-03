@@ -27,9 +27,7 @@ export function Nav({ links, isCollapsed }) {
   const [loading, setLoading] = useState(false);
 
   function userLoggingOut(){
-    setLoading(true)
-    UserLogout(navigate, logout)
-    setLoading(false)
+    UserLogout(navigate, logout, setLoading)
   }
 
   return (
@@ -146,7 +144,7 @@ export function Nav({ links, isCollapsed }) {
         <Button
           onClick={userLoggingOut} 
           variant='ghost' 
-          disabled={loading} 
+          disabled={loading}
           className="w-full hover:bg-black hover:border hover:text-white"> 
             {loading ? (
               <>

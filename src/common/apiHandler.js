@@ -95,8 +95,9 @@ export async function LoginUser(userDeatil, setLoading, navigate, login) { //use
 // }
 
 
-export const UserLogout = async (navigate, logoutContextApi) => {
+export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
     try {
+        setLoading(true);
         const response = await axios.get(`${params?.production}/logout`, {
             withCredentials: true,
             headers: {
@@ -107,12 +108,14 @@ export const UserLogout = async (navigate, logoutContextApi) => {
         if (response.status === 200) {
             logoutContextApi();
             toast.success("Logged out successfully", true);
+            setLoading(false);
             navigate('/login');
             return;
         }
         throw new Error("Something went wrong");
     }
     catch (error) {
+        setLoading(false);
         toast.error(error.message , false);
     }
 }
