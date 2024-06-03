@@ -1,28 +1,23 @@
-import { Form, Link } from "react-router-dom"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Form, Link } from "react-router-dom";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  TooltipProvider
-} from "@/components/ui/tooltip"
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-import { cn } from "@/lib/utils"
-
+import { cn } from "@/lib/utils";
+import { SelectGroup, SelectItem, SelectLabel,Select ,SelectContent} from "./select";
 
 export function Nav({ links, isCollapsed }) {
-
-
   return (
     <TooltipProvider>
       <div
@@ -34,35 +29,39 @@ export function Nav({ links, isCollapsed }) {
             isCollapsed ? (
               <Tooltip key={index} delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Select>
-                    <SelectTrigger>
-                      <button
-                        onClick={link.onClick}
-                        className={cn(
-                          buttonVariants({ variant: link.variant, size: "icon" }),
-                          "h-9 w-9",
-                          link.variant === "default" &&
-                          "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                        )}
-                      >
-                        <link.icon className="h-4 w-4" />
-                        <span className="sr-only">{link.title}</span>
-                      </button>
-                    </SelectTrigger>
+                  {/* <Select>
+                    <SelectTrigger> */}
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>
+                        <button
+                          onClick={link.onClick}
+                          className={cn(
+                            buttonVariants({
+                              variant: link.variant,
+                              size: "icon",
+                            }),
+                            "h-9 w-9",
+                            link.variant === "default" &&
+                              "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                          )}
+                        >
+                          <link.icon className="h-4 w-4" />
+                          <span className="sr-only">{link.title}</span>
+                        </button>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                     <Button>CSE</Button>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
 
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Fruits</SelectLabel>
-                        <SelectItem value="apple">Apple</SelectItem>
-                        <SelectItem value="banana">Banana</SelectItem>
-                        <SelectItem value="blueberry">Blueberry</SelectItem>
-                        <SelectItem value="grapes">Grapes</SelectItem>
-                        <SelectItem value="pineapple">Pineapple</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  {/* / */}
                 </TooltipTrigger>
-                <TooltipContent side="right" className="flex items-center gap-4">
+                <TooltipContent
+                  side="right"
+                  className="flex items-center gap-4"
+                >
                   {link.title}
                   {link.label && (
                     <span className="ml-auto text-muted-foreground">
@@ -78,7 +77,7 @@ export function Nav({ links, isCollapsed }) {
                 className={cn(
                   buttonVariants({ variant: link.variant, size: "sm" }),
                   link.variant === "default" &&
-                  "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                    "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                   "justify-start"
                 )}
               >
@@ -89,7 +88,7 @@ export function Nav({ links, isCollapsed }) {
                     className={cn(
                       "ml-auto",
                       link.variant === "default" &&
-                      "text-background dark:text-white"
+                        "text-background dark:text-white"
                     )}
                   >
                     {link.label}
@@ -101,5 +100,5 @@ export function Nav({ links, isCollapsed }) {
         </nav>
       </div>
     </TooltipProvider>
-  )
+  );
 }

@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-  // SortingState,this is typedefination of sorting
+  // SortingState,this is type de funtion of sorting
   // ColumnFiltersState,
   getFilteredRowModel,
   getSortedRowModel,
@@ -18,16 +18,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
-
-// const [sorting, setSorting] = React.useState<SortingState>([])
 
 export default function DataTable({ columns, data }) {
   // state for sorting
   const [sorting, setSorting] = useState([]);
-// state for filter
-  const [columnFilters, setColumnFilters] = useState ([]);
+  // state for filter
+  const [columnFilters, setColumnFilters] = useState([]);
+
+  const [columnVisibility, setColumnVisibility] = useState({});
+
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -38,31 +48,57 @@ export default function DataTable({ columns, data }) {
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
+      columnVisibility,
+      rowSelection,
     },
   });
 
   return (
     <>
       {/* table */}
-      <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() ) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="Filter name..."
+            value={table.getColumn("name")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      </div>
-
-
-
-
 
       <div className="rounded-md border">
         <Table>
@@ -117,6 +153,10 @@ export default function DataTable({ columns, data }) {
 
       {/* pagination */}
       <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex-1 text-sm text-muted-foreground">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
+      </div>
         <Button
           variant="outline"
           size="sm"
@@ -133,7 +173,11 @@ export default function DataTable({ columns, data }) {
         >
           Next
         </Button>
+       
+       
       </div>
+     
+     
     </>
   );
 }
