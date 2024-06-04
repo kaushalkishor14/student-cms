@@ -112,6 +112,7 @@ export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
             navigate('/login');
             return;
         }
+        // logoutContextApi();
         throw new Error("Something went wrong");
     }
     catch (error) {

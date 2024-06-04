@@ -15,7 +15,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { SelectGroup, SelectItem, SelectLabel, Select, SelectContent, SelectTrigger, SelectValue } from "./select";
-import { LogOutIcon , Loader2} from "lucide-react";
+import { LogOutIcon, Loader2 } from "lucide-react";
 import { UserLogout } from "@/common/apiHandler";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/common/AuthProvider";
@@ -26,7 +26,7 @@ export function Nav({ links, isCollapsed }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  function userLoggingOut(){
+  function userLoggingOut() {
     UserLogout(navigate, logout, setLoading)
   }
 
@@ -75,11 +75,12 @@ export function Nav({ links, isCollapsed }) {
                 </TooltipContent>
               </Tooltip>
             ) : (
-              <Accordion type="single" collapsible className="w-[180px]">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>
 
-                    <button
+
+              <>
+                {
+                  link.title === "Dashboard" ? (
+                    <Button
                       key={index}
                       onClick={link.onClick}
                       className={cn(
@@ -102,62 +103,100 @@ export function Nav({ links, isCollapsed }) {
                           {link.label}
                         </span>
                       )}
-                    </button>
+                    </Button>
+                  ) : null
 
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    {
-                      link.title === "Course" ? (
+                }
 
-                        //This is the select component if u wnat to use u cabn use this one as well
-                        // <Select>
-                        //   <SelectTrigger>
-                        //     <SelectValue placeholder="Select a Course" />
-                        //     <SelectGroup>
-                        //       <SelectLabel> Selected  </SelectLabel>
-                        //       <SelectContent>
-                        //         <SelectItem value="DSA">DSA</SelectItem>
-                        //         <SelectItem value="Web Dev" >Web Dev</SelectItem>
-                        //         <SelectItem value="Java">Java</SelectItem>
-                        //         <SelectItem value="Python">Python</SelectItem>
-                        //       </SelectContent>
-                        //     </SelectGroup>
-                        //   </SelectTrigger>
-                        // </Select>
+                {
+                  link.title !== "Dashboard" ?
+                    <Accordion type="single" collapsible className="w-[180px]">
+                      <AccordionItem value="item-1">
+                        <AccordionTrigger>
+                          <button
+                            key={index}
+                            onClick={link.onClick}
+                            className={cn(
+                              buttonVariants({ variant: link.variant, size: "sm" }),
+                              link.variant === "default" &&
+                              "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                              "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
+                            )}
+                          >
+                            <link.icon className="mr-2 h-4 w-4" />
+                            {link.title}
+                            {link.label && (
+                              <span
+                                className={cn(
+                                  "ml-auto",
+                                  link.variant === "default" &&
+                                  "text-background dark:text-white"
+                                )}
+                              >
+                                {link.label}
+                              </span>
+                            )}
+                          </button>
+                        </AccordionTrigger>
+                        <AccordionContent>
 
 
-                        // This is the button component option if u want to use button component
-                        <>
-                          <Button variant='ghost' className="w-full" onClick={link.onClick} >DSA</Button>
-                          <Button variant='ghost' className="w-full">Web Dev</Button>
-                          <Button variant='ghost' className="w-full">Java</Button>
-                          <Button variant='ghost' className="w-full">Python</Button>
-                        </>                      
-                      ) : null
-                    }
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+                          {
+                            link.title === "Course" ? (
+
+                              // This is the select component if u wnat to use u cabn use this one as well
+                              // <Select>
+                              //   <SelectTrigger>
+                              //     <SelectValue placeholder="Select a Course" />
+                              //     <SelectGroup>
+                              //       <SelectLabel> Selected  </SelectLabel>
+                              //       <SelectContent>
+                              //         <SelectItem value="DSA">DSA</SelectItem>
+                              //         <SelectItem value="Web Dev" >Web Dev</SelectItem>
+                              //         <SelectItem value="Java">Java</SelectItem>
+                              //         <SelectItem value="Python">Python</SelectItem>
+                              //       </SelectContent>
+                              //     </SelectGroup>
+                              //   </SelectTrigger>
+                              // </Select>
+
+
+                              // This is the button component option if u want to use button component
+                              <>
+                                <Button variant='ghost' className="w-full" onClick={link.onClick} >DSA</Button>
+                                <Button variant='ghost' className="w-full">Web Dev</Button>
+                                <Button variant='ghost' className="w-full">Java</Button>
+                                <Button variant='ghost' className="w-full">Python</Button>
+                              </>
+                            ) : null
+                          }
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                    : null
+                }
+
+              </>
             )
           )}
         </nav>
         <Button
-          onClick={userLoggingOut} 
-          variant='ghost' 
+          onClick={userLoggingOut}
+          variant='ghost'
           disabled={loading}
-          className="w-full hover:bg-black hover:border hover:text-white"> 
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Logging Out
-              </>
-            ) : (
-              <>
-                <LogOutIcon className="mr-2 h-4 w-4" />
-                Logout
-              </>
-            )}
-          </Button>
+          className="w-full hover:bg-black hover:border hover:text-white">
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Logging Out
+            </>
+          ) : (
+            <>
+              <LogOutIcon className="mr-2 h-4 w-4" />
+              Logout
+            </>
+          )}
+        </Button>
       </div>
     </TooltipProvider>
   );

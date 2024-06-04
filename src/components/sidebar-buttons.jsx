@@ -24,6 +24,14 @@ export function SidebarButton({active, value}) {
         isCollapsed={isCollapsed}
         links={[
           {
+            title: "Dashboard",
+            // href: "/",
+            label: "",
+            icon: UsersRound,
+            variant: value === 'home' ? "default" : "ghost",
+            onClick: () => active('home')
+          },
+          {
             title: "Course",
             href: "/course",
             label: "",
@@ -36,8 +44,8 @@ export function SidebarButton({active, value}) {
             href: "/student",
             label: "",
             icon: UsersRound,
-            variant: value === 'home' ? "default" : "ghost",
-            onClick: () => active('home')
+            variant: value === 'student' ? "default" : "ghost",
+            onClick: () => active('student')
           },
           {
             title: "Teacher",

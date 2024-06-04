@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Teacher from "./Teacher";
 import Course from "./Course";
 import Subject from "./Subject";
+import Dashboard from "./Dashboard";
 
 function Home() {
   const [activeComponent, setActiveComponent] = useState('home');
@@ -11,6 +12,8 @@ function Home() {
   function handleComponentChange() {
     switch (activeComponent) {
       case 'home':
+        return <Dashboard />;
+      case 'student':
         return <StudentPage />;
       case 'teacher':
         return <Teacher />;
@@ -18,9 +21,8 @@ function Home() {
         return <Course />;
       case 'subject':
         return <Subject />;
-        
       default:
-        return <StudentPage />;
+        return <Dashboard />;
     }
   }
   return (
