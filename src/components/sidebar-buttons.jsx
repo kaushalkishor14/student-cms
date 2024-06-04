@@ -34,7 +34,7 @@ export function SidebarButton({active, value}) {
           {
             title: "Student",
             href: "/student",
-            label: "128",
+            label: "",
             icon: UsersRound,
             variant: value === 'home' ? "default" : "ghost",
             onClick: () => active('home')
@@ -42,7 +42,7 @@ export function SidebarButton({active, value}) {
           {
             title: "Teacher",
             href: "/teacher",
-            label: "9",
+            label: "",
             icon: UsersRound,
             variant: value === 'teacher' ? "default" : "ghost",
             onClick: () => active('teacher')

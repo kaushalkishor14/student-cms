@@ -128,7 +128,7 @@ export function Nav({ links, isCollapsed }) {
 
                         // This is the button component option if u want to use button component
                         <>
-                          <Button variant='ghost' className="w-full" onClick={link.onClick}>DSA</Button>
+                          <Button variant='ghost' className="w-full" onClick={link.onClick} >DSA</Button>
                           <Button variant='ghost' className="w-full">Web Dev</Button>
                           <Button variant='ghost' className="w-full">Java</Button>
                           <Button variant='ghost' className="w-full">Python</Button>
