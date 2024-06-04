@@ -5,25 +5,23 @@ import LoginPage from "../pages/LoginPage";
 import StudentPage from "@/pages/users/StudentPage";
 import { useAuth } from "./AuthProvider";
 
-
 function AllRoutes() {
   const { user } = useAuth();
   return (
     <Routes>
       <>
-        {user ?
+        {user ? (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/student" element={<StudentPage />} />
-            
-            <Route path="*" element={<Home/>} />
+            <Route path="*" element={<Home />} />
           </>
-          :
+        ) : (
           <>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<LoginPage/>} />
+            <Route path="*" element={<LoginPage />} />
           </>
-        }
+        )}
       </>
     </Routes>
   );

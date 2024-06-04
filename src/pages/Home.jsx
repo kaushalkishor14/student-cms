@@ -18,6 +18,7 @@ function Home() {
         return <Course />;
       case 'subject':
         return <Subject />;
+        
       default:
         return <StudentPage />;
     }
