@@ -24,7 +24,7 @@ import {LoginUser} from '@/common/apiHandler';
 export default function loginPage() {
   const form = useForm()
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
+  const { login, setAccessTokenFunction, setRefreshTokenFunction } = useAuth();
   const navigate = useNavigate();
 
   const handelInput = (e) => {
@@ -33,7 +33,7 @@ export default function loginPage() {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    LoginUser(form.getValues(), setIsSubmitting, navigate, login);
+    LoginUser(form.getValues(), setIsSubmitting, navigate, login, setAccessTokenFunction , setRefreshTokenFunction);
   }
 
   return (

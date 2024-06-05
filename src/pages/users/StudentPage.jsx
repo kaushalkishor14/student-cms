@@ -4,18 +4,24 @@ import DataTable from '../../components/data-table';
 import { useEffect } from "react";
 import params from '../../common/params';
 import axios from "axios";
+import {checkingTokenExpiry} from '../../common/apiHandler';
 
 
 async function getUsers(setData) {
-  const response = await axios.get(params?.production + '/users', {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('user'))?.accessToken,
-      withCredentials: true,
+  try{
+    const token = checkingTokenExpiry();
+    const response = await axios.get(params?.production + '/users', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+        withCredentials: true,
+      }
     }
+    );
+    setData(response?.data?.data?.users);
+  }catch(error){
+    console.log(error);
   }
-  );
-  setData(response?.data?.data?.users);
 }
 
 function StudentPage() {
