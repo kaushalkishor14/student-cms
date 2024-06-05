@@ -24,7 +24,7 @@ export const EmployeeClient = ({ data }) => {
           description="Manage employee for you business"
         /> */}
         <h1 className="font-bold text-3xl">Teacher Deatils</h1>
-        {/* <h3>Manage employee for you business</h3> */}
+        
         <Button
           onClick={() => {
             // history.push("/teacher/new");

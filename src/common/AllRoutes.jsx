@@ -4,6 +4,8 @@ import Home from "../pages/Home";
 import LoginPage from "../pages/LoginPage";
 import StudentPage from "@/pages/users/StudentPage";
 import { useAuth } from "./AuthProvider";
+import Teacher from "@/pages/Teacher";
+import Subject from '@/pages/Subject'
 
 function AllRoutes() {
   const { user } = useAuth();
@@ -15,6 +17,8 @@ function AllRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/student" element={<StudentPage />} />
             <Route path="*" element={<Home />} />
+            <Route path="/teacher" element={<Teacher/>}/>
+            <Route path="/subject" element={<Subject/>}/>
           </>
         ) : (
           <>
