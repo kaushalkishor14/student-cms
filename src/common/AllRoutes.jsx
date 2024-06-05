@@ -7,6 +7,7 @@ import { useAuth } from "./AuthProvider";
 import Teacher from "@/pages/Teacher";
 import Subject from '@/pages/Subject'
 import Dashboard from "@/pages/Dashboard";
+import Course from "@/pages/Course";
 
 function AllRoutes() {
   const { user } = useAuth();
@@ -15,10 +16,14 @@ function AllRoutes() {
       <>
         {user ? (
           <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/student" element={<StudentPage />} />
             <Route path="/teacher" element={<Teacher/>}/>
             <Route path="/course/dsa" element={<Subject/>}/>
+            <Route path="/course/*" element={<Course/>}> 
+              {/* here u can add Subroute like this way  */}
+              <Route path="dsa" element={<Subject/>} />
+            </Route> 
             <Route path="*" element={<Dashboard />} />
           </>
         ) : (

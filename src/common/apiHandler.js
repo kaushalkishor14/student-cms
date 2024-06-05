@@ -175,36 +175,28 @@ export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
     }
 }
 
-// const refreshAccessToken = async () => {
-//     try {
-//         if (isTokenExpired(JSON.parse(localStorage.getItem('user'))?.accessToken)) {
-//             console.log('Token expired --------------------> 1');
-//             // this request will  not execute after we reach here
-//             const response = await axios.get(`${params?.productionBaseAuthURL}/refreshAccessToken`, {
-//                 withCredentials: true,
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('accessToken')),
-//                 }
-//             });
 
-//             if (response.status === 200) {
-//                 localStorage.setItem('accessToken', JSON.stringify(response?.data?.data?.accessToken));
-//                 localStorage.setItem('refreshToken', JSON.stringify(response?.data?.data?.refreshToken));
-//                 console.log("Token refreshed successfully");
-//                 return response?.data?.data?.accessToken;
-//             } else {
-//                 // navigate('/login');
-//                 toast.error("Token expired, please login again", false);
-//                 throw new Error("Token expired, please login again");
-//             }
-//         }
-//         console.log('Token expired --------------------> 2');
-//         return JSON.parse(localStorage.getItem('accessToken'));
-//     }
-//     catch (error) {
-//         setLoading(false);
-//         toast.error(error.message, false);
-//         return null;
-//     }
-// }
+export async function CourseName(courseName, setLoading, navigate) {
+    try {
+        setLoading(true);
+        const response = await axios.post(`${params?.productionBaseURL}/course`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('accessToken')),
+            }
+        });
+
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            navigate('/course');
+            setLoading(false);
+            return;
+        }
+        setLoading(false);
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast.error(error.message, false);
+        setLoading(false);
+    }
+}
