@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import { ToastContainer, } from "react-toastify";
 import { Toaster } from "./components/ui/toaster";
 import { Sidebar } from "lucide-react";
-import Home from "./pages/Home";
 import { SidebarButton } from "./components/sidebar-buttons";
 import { useState } from "react";
 import { useAuth } from "./common/AuthProvider";
