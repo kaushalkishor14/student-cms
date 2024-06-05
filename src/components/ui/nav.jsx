@@ -34,7 +34,7 @@ export function Nav({ links, isCollapsed }) {
     <TooltipProvider>
       <div
         data-collapsed={isCollapsed}
-        className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2 items-center justify-between h-[86vh]"
+        className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2 items-center justify-between h-[80vh]"
       >
         <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
           {links.map((link, index) =>
@@ -110,7 +110,7 @@ export function Nav({ links, isCollapsed }) {
 
                 {
                   link.title !== "Dashboard" ?
-                    <Accordion type="single" collapsible className="w-[180px]">
+                    <Accordion type="single" collapsible className="w-[80px]">
                       <AccordionItem value="item-1">
                         <AccordionTrigger>
                           <button

@@ -6,7 +6,6 @@ import Course from "./Course";
 import Subject from "./Subject";
 import Dashboard from "./Dashboard";
 
-
 function Home() {
   const [activeComponent, setActiveComponent] = useState('home');
 
@@ -26,7 +25,6 @@ function Home() {
         return <Dashboard />;
     }
   }
-  
   return (
     <div className=" w-full flex ">
       <div className="menubar min-h-screen min-w[80px]" >
@@ -36,6 +34,7 @@ function Home() {
         {handleComponentChange()}
       </div>
     </div>
+
   );
 }
 
