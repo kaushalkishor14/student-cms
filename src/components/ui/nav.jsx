@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { SelectGroup, SelectItem, SelectLabel, Select, SelectContent, SelectTrigger, SelectValue } from "./select";
 import { LogOutIcon, Loader2 } from "lucide-react";
 import { UserLogout } from "@/common/apiHandler";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/common/AuthProvider";
 import { useState } from "react";
 
@@ -44,21 +44,23 @@ export function Nav({ links, isCollapsed }) {
                   {/* <Select>
                     <SelectTrigger> */}
 
-                  <button
-                    // onClick={link.onClick}
-                    className={cn(
-                      buttonVariants({
-                        variant: link.variant,
-                        size: "icon",
-                      }),
-                      "h-9 w-9",
-                      link.variant === "default" &&
-                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
-                    )}
-                  >
-                    <link.icon className="h-4 w-4" />
-                    <span className="sr-only">{link.title}</span>
-                  </button>
+                  <Link to={link?.href}>
+                    <button
+                      // onClick={link.onClick}
+                      className={cn(
+                        buttonVariants({
+                          variant: link.variant,
+                          size: "icon",
+                        }),
+                        "h-9 w-9",
+                        link.variant === "default" &&
+                        "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                      )}
+                    >
+                      <link.icon className="h-4 w-4" />
+                      <span className="sr-only">{link.title}</span>
+                    </button>
+                  </Link>
 
                   {/* / */}
                 </TooltipTrigger>
@@ -80,30 +82,32 @@ export function Nav({ links, isCollapsed }) {
               <>
                 {
                   link.title === "Dashboard" ? (
-                    <Button
-                      key={index}
-                      onClick={link.onClick}
-                      className={cn(
-                        buttonVariants({ variant: link.variant, size: "sm" }),
-                        link.variant === "default" &&
-                        "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                        "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
-                      )}
-                    >
-                      <link.icon className="mr-2 h-4 w-4" />
-                      {link.title}
-                      {link.label && (
-                        <span
-                          className={cn(
-                            "ml-auto",
-                            link.variant === "default" &&
-                            "text-background dark:text-white"
-                          )}
-                        >
-                          {link.label}
-                        </span>
-                      )}
-                    </Button>
+                    <Link to={link?.href}>
+                      <Button
+                        key={index}
+                        onClick={link.onClick}
+                        className={cn(
+                          buttonVariants({ variant: link.variant, size: "sm" }),
+                          link.variant === "default" &&
+                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                          "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
+                        )}
+                      >
+                        <link.icon className="mr-2 h-4 w-4" />
+                        {link.title}
+                        {link.label && (
+                          <span
+                            className={cn(
+                              "ml-auto",
+                              link.variant === "default" &&
+                              "text-background dark:text-white"
+                            )}
+                          >
+                            {link.label}
+                          </span>
+                        )}
+                      </Button>
+                    </Link>
                   ) : null
 
                 }
@@ -113,30 +117,32 @@ export function Nav({ links, isCollapsed }) {
                     <Accordion type="single" collapsible className="w-[80px]">
                       <AccordionItem value="item-1">
                         <AccordionTrigger>
-                          <button
-                            key={index}
-                            onClick={link.onClick}
-                            className={cn(
-                              buttonVariants({ variant: link.variant, size: "sm" }),
-                              link.variant === "default" &&
-                              "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                              "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
-                            )}
-                          >
-                            <link.icon className="mr-2 h-4 w-4" />
-                            {link.title}
-                            {link.label && (
-                              <span
-                                className={cn(
-                                  "ml-auto",
-                                  link.variant === "default" &&
-                                  "text-background dark:text-white"
-                                )}
-                              >
-                                {link.label}
-                              </span>
-                            )}
-                          </button>
+                          <Link to={link?.href}>
+                            <button
+                              key={index}
+                              onClick={link.onClick}
+                              className={cn(
+                                buttonVariants({ variant: link.variant, size: "sm" }),
+                                link.variant === "default" &&
+                                "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                                "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
+                              )}
+                            >
+                              <link.icon className="mr-2 h-4 w-4" />
+                              {link.title}
+                              {link.label && (
+                                <span
+                                  className={cn(
+                                    "ml-auto",
+                                    link.variant === "default" &&
+                                    "text-background dark:text-white"
+                                  )}
+                                >
+                                  {link.label}
+                                </span>
+                              )}
+                            </button>
+                          </Link>
                         </AccordionTrigger>
                         <AccordionContent>
 
@@ -163,10 +169,24 @@ export function Nav({ links, isCollapsed }) {
 
                               // This is the button component option if u want to use button component
                               <>
-                                <Button variant='ghost' className="w-full" onClick={link.onClick} >DSA</Button>
-                                <Button variant='ghost' className="w-full">Web Dev</Button>
-                                <Button variant='ghost' className="w-full">Java</Button>
-                                <Button variant='ghost' className="w-full">Python</Button>
+                                
+                                {
+                                  link?.subRoute?.map((sublink, index) => (
+                                    <Link to={sublink?.href}>
+                                      <Button variant='ghost' className="w-full">{sublink.title}</Button>
+                                    </Link>
+                                  ))
+                                }
+
+                                {/* <Link>
+                                  <Button variant='ghost' className="w-full">Web Dev</Button>
+                                </Link>
+                                <Link>
+                                  <Button variant='ghost' className="w-full">Java</Button>
+                                </Link>
+                                <Link>
+                                  <Button variant='ghost' className="w-full">Python</Button>
+                                </Link> */}
                               </>
                             ) : null
                           }

@@ -5,15 +5,48 @@ import Home from "./pages/Home";
 import { ToastContainer, } from "react-toastify";
 import { Toaster } from "./components/ui/toaster";
 import { Sidebar } from "lucide-react";
+import Home from "./pages/Home";
+import { SidebarButton } from "./components/sidebar-buttons";
+import { useState } from "react";
+import { useAuth } from "./common/AuthProvider";
 
 function App() {
+  const [activeComponent, setActiveComponent] = useState('home');
+  const {user} = useAuth();
+
+  function handleComponentChange() {
+    switch (activeComponent) {
+      case 'home':
+        return <Dashboard />;
+      case 'student':
+        return <StudentPage />;
+      case 'teacher':
+        return <Teacher />;
+      case 'course':
+        return <Course />;
+      case 'subject':
+        return <Subject />;
+      default:
+        return <Dashboard />;
+    }
+  }
+
   return (
-    <>
-      <div className="">
-      
-        <AllRoutes />
+
+    <div className="">
+      <div className=" w-full flex ">
+        {
+          user &&
+          <div className="menubar min-h-screen min-w[80px]" >
+            <SidebarButton active={setActiveComponent} value={activeComponent} />
+          </div>
+        }
+        <Home>
+          <AllRoutes />
+        </Home>
       </div>
-    </>
+    </div>
+
   );
 }
 

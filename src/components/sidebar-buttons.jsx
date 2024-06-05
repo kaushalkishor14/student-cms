@@ -3,9 +3,9 @@ import { Nav } from "./ui/nav";
 import { UsersRound, Users2, User2, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 
-export function SidebarButton({active, value}) {
+export function SidebarButton({ active, value }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
- 
+
 
   function toggleSidebar() {
     setIsCollapsed(!isCollapsed)
@@ -25,7 +25,7 @@ export function SidebarButton({active, value}) {
         links={[
           {
             title: "Dashboard",
-            // href: "/",
+            href: "/",
             label: "",
             icon: UsersRound,
             variant: value === 'home' ? "default" : "ghost",
@@ -36,23 +36,49 @@ export function SidebarButton({active, value}) {
             href: "/course",
             label: "",
             icon: User2,
+            subRoute: [
+              {
+                title: "DSA",
+                href: "/course/dsa",
+                label: "",
+                icon: Users2
+              },
+              {
+                title: "C++",
+                href: "/course/view",
+                label: "",
+                icon: Users2
+              },
+              {
+                title: "Java",
+                href: "/course/edit",
+                label: "",
+                icon: Users2
+              },
+              {
+                title: "Python",
+                href: "/course/edit",
+                label: "",
+                icon: Users2
+              },
+            ],
             variant: value === 'subject' ? "default" : "ghost",
             onClick: () => active('subject')
           },
-          {
-            title: "Student",
-            href: "/student",
-            label: "",
-            icon: UsersRound,
-            variant: value === 'student' ? "default" : "ghost",
+      {
+        title: "Student",
+      href: "/student",
+      label: "",
+      icon: UsersRound,
+      variant: value === 'student' ? "default" : "ghost",
             onClick: () => active('student')
           },
-          {
-            title: "Teacher",
-            href: "/teacher",
-            label: "",
-            icon: UsersRound,
-            variant: value === 'teacher' ? "default" : "ghost",
+      {
+        title: "Teacher",
+      href: "/teacher",
+      label: "",
+      icon: UsersRound,
+      variant: value === 'teacher' ? "default" : "ghost",
             onClick: () => active('teacher')
           },
         ]}

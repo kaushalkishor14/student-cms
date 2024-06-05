@@ -6,36 +6,19 @@ import Course from "./Course";
 import Subject from "./Subject";
 import Dashboard from "./Dashboard";
 
-function Home() {
-  const [activeComponent, setActiveComponent] = useState('home');
 
-  function handleComponentChange() {
-    switch (activeComponent) {
-      case 'home':
-        return <Dashboard />;
-      case 'student':
-        return <StudentPage />;
-      case 'teacher':
-        return <Teacher />;
-      case 'course':
-        return <Course />;
-      case 'subject':
-        return <Subject />;
-      default:
-        return <Dashboard />;
-    }
-  }
+function Home({children}) {
+
   return (
-    <div className=" w-full flex ">
-      <div className="menubar min-h-screen min-w[80px]" >
-        <SidebarButton active={setActiveComponent} value={activeComponent} />
-      </div>
       <div className="Content_part_On_right mt-14 font-bold flex justify-center w-full">
-        {handleComponentChange()}
+        {children}
       </div>
-    </div>
-
   );
 }
 
 export default Home;
+
+
+      {/* <div className="menubar min-h-screen min-w[80px]" >
+        <SidebarButton active={setActiveComponent} value={activeComponent} />
+      </div> */}

@@ -144,23 +144,30 @@ export async function RegisterUser(userDetail, setLoading, navigate, selectedFil
 
 
 
-export const UserLogout = async (navigate, logoutContextApi) => {
+export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
     try {
+        setLoading(true);
+        let token;
         const newToken = await checkingTokenExpiry();
-
+        token = newToken;
+        if (!newToken) {
+            token = JSON.parse(localStorage.getItem('accessToken'));
+        }
         const response = await axios.get(`${params?.productionBaseAuthURL}/logout`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + newToken,
+                'Authorization': 'Bearer ' + token,
             }
         });
         if (response.status === 200) {
             logoutContextApi();
             toast.success("Logged out successfully", true);
             navigate('/login');
+            setLoading(false);
             return;
         }
+        setLoading(false);
         throw new Error("Something went wrong");
     }
     catch (error) {

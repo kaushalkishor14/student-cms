@@ -6,13 +6,20 @@ import { EmployeeClient } from "../components/teacher-page.jsx/button";
 import { useEffect } from "react";
 import params from "../common/params";
 import axios from "axios";
+import { checkingTokenExpiry } from "../common/apiHandler";
 
 async function getUsers(setData) {
-  const response = await axios.get(params?.production + "/users", {
+  let token;
+  const newToken = await checkingTokenExpiry();
+  token = newToken;
+  if (!newToken) {
+    token = JSON.parse(localStorage.getItem('accessToken'));
+  }
+  const response = await axios.get(params?.productionBaseAuthURL + '/users', {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer " + JSON.parse(localStorage.getItem("user"))?.accessToken,
+        "Bearer " + token,
       withCredentials: true,
     },
   });
