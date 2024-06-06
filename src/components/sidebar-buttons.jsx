@@ -1,15 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Nav } from "./ui/nav";
 import { UsersRound, Users2, User2, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
+import {checkingTokenExpiry} from '../common/apiHandler'
+import { get } from "react-hook-form";
+
+
 
 export function SidebarButton({ active, value }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const [courseName, setCourseName] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   function toggleSidebar() {
     setIsCollapsed(!isCollapsed)
   }
+
+  async function getCourseName() {
+    try {
+      setLoading(true);
+      let newToken = await checkingTokenExpiry();
+      console.log("New Token : ", newToken);
+    } catch (error) {
+      console.log("Error in getCourseName : ", error);
+    }
+  }
+
+  useEffect(() => {
+    getCourseName();
+  },[]);
 
   return (
     <div className=" relative border-r min-h-screen   pt-24 px-3 pb-10   gap-3 mr-9">
