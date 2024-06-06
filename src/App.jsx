@@ -2,7 +2,6 @@
 import AllRoutes from "./common/AllRoutes";
 import { Button } from "./components/ui/button";
 import Home from "./pages/Home";
-import { ToastContainer, } from "react-toastify";
 import { Toaster } from "./components/ui/toaster";
 import { Sidebar } from "lucide-react";
 import { SidebarButton } from "./components/sidebar-buttons";
@@ -44,6 +43,7 @@ function App() {
           <AllRoutes />
         </Home>
       </div>
+      <Toaster />
     </div>
 
   );

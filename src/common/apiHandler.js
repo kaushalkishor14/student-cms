@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import params from './params.json';
 import axios from 'axios';
+import { c } from "vite/dist/node/types.d-aGj9QkWt";
 
 
 // function to notify user
@@ -43,6 +44,7 @@ export const checkingTokenExpiry = async () => {
                 throw new Error("Token expired, please login again");
             }
         }
+        // return token;
     } catch (error) {
         // toast.error(error.message, false);
         console.log("Error in checkingTokenExpiry : ", error);
@@ -171,32 +173,37 @@ export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
         throw new Error("Something went wrong");
     }
     catch (error) {
+        const errorMessage = error.response?.data?.message || error.message;
+        console.log("Error in UserLogout : ", errorMessage);
         toast.error(error.message, false);
     }
 }
 
 
-export async function CourseName(courseName, setLoading, navigate) {
-    try {
-        setLoading(true);
-        const response = await axios.post(`${params?.productionBaseURL}/course`, {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('accessToken')),
-            }
-        });
+// export async function CourseNames(courseName, setLoading) {
+//     try {
+//         setLoading(true);
+//         let newToken = await checkingTokenExpiry();
+//         console.log("New Token : ", newToken);
+//         const response = await axios.post(`${params?.CourseURL}/getCourse`, {
+//             withCredentials: true,
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': 'Bearer ' + newToken,
+//             }
+//         });
 
-        if (response.status === 200) {
-            notify(response.data.message, { type: true });
-            navigate('/course');
-            setLoading(false);
-            return;
-        }
-        setLoading(false);
-        throw new Error(response.data.message);
-    } catch (error) {
-        toast.error(error.message, false);
-        setLoading(false);
-    }
-}
+//         if (response.status === 200) {
+//             notify(response.data.message, { type: true });
+//             // courseName(response.data.data);
+//             // navigate('/course');
+//             setLoading(false);
+//             return;
+//         }
+//         setLoading(false);
+//         throw new Error(response.data.message);
+//     } catch (error) {
+//         toast.error(error.message, false);
+//         setLoading(false);
+//     }
+// }

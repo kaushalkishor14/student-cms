@@ -18,9 +18,10 @@ async function getUsers(setData) {
     const response = await axios.get(params?.productionBaseAuthURL + '/users', {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-        withCredentials: true,
-      }
+        'Authorization': 'Bearer '+token,
+        
+      },
+      withCredentials: true,
     }
     );
     setData(response?.data?.data?.users);
