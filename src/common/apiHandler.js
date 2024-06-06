@@ -38,16 +38,21 @@ export const checkingTokenExpiry = async () => {
                 localStorage.setItem('refreshToken', JSON.stringify(response?.data?.data?.refreshToken));
                 console.log("Token refreshed successfully");
                 return response?.data?.data?.accessToken;
-            } else{
-                navigate('/login');
-                toast.error("Token expired, please login again", false);
-                throw new Error("Token expired, please login again");
+            } else {
+                // navigate('/login');
+                toast.error(response.data.message, false);
+                throw new Error(response.data.message);
             }
         }
-        // return token;
+        return null;
     } catch (error) {
-        // toast.error(error.message, false);
-        console.log("Error in checkingTokenExpiry : ", error);
+        toast.error("Token expired, please login again", false);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        toast.error("Token expired, please login again", false);
+        console.log("Error in checkingTokenExpiry : ", error.message);
+        window.location.href = '/login';
         return null;
     }
 }
@@ -92,6 +97,10 @@ export async function LoginUser(userDetail, setLoading, navigate, login, setAcce
     } catch (err) {
         const error = err.response?.data?.message || err.message;
         notify(error, { type: false });
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        console.log("Please login again");
         setLoading(false);
         navigate('/login');
     }
@@ -149,12 +158,11 @@ export async function RegisterUser(userDetail, setLoading, navigate, selectedFil
 export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
     try {
         setLoading(true);
-        let token;
-        const newToken = await checkingTokenExpiry();
-        token = newToken;
-        if (!newToken) {
+        let token = await checkingTokenExpiry();
+        if (!token) {
             token = JSON.parse(localStorage.getItem('accessToken'));
         }
+
         const response = await axios.get(`${params?.productionBaseAuthURL}/logout`, {
             withCredentials: true,
             headers: {

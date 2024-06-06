@@ -29,25 +29,22 @@ import { Input } from "@/components/ui/input"
 import { checkingTokenExpiry } from '../common/apiHandler';
 
 async function getUsers(setData) {
-  let token;
-    const newToken = await checkingTokenExpiry();
-    token = newToken;
-    if (!newToken) {
-      token = JSON.parse(localStorage.getItem('accessToken'));
-    }
-    const response = await axios.get(params?.productionBaseAuthURL + '/users', {
+  
+  let  newToken = await checkingTokenExpiry();
+  if (!newToken) {
+    newToken = JSON.parse(localStorage.getItem('accessToken'));
+  }
+  const response = await axios.get(params?.productionBaseAuthURL+'/users', {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token,
-      withCredentials: true,
-    }
-  }
-  );
-  setData(response?.data?.data?.users);
+      'Authorization': 'Bearer ' + newToken,
+    },
+    withCredentials: true,
+  })
+  setData(response.data.data)
 }
 
 export default function Subject() {
-
   const [data, setData] = useState([]);
   useEffect(() => {
     getUsers(setData)
