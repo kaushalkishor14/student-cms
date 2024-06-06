@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import params from './params.json';
 import axios from 'axios';
-import { c } from "vite/dist/node/types.d-aGj9QkWt";
+// import { c } from "vite/dist/node/types.d-aGj9QkWt";
 
 
 // function to notify user
