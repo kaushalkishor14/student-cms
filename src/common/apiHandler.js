@@ -200,3 +200,31 @@ export async function CourseName(courseName, setLoading, navigate) {
         setLoading(false);
     }
 }
+
+
+// added by kaushal check endpoint if any chnge do it 
+export async function deleteCourse(teacherId, setLoading, navigate) {
+    try {
+        setLoading(true);
+        const response = await axios.delete(`${params?.productionBaseURL}/teacher/${users_Id}`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('accessToken')),
+            }
+        });
+
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            // Assuming you want to navigate to a different page after deletion
+            navigate('/teacher');
+            setLoading(false);
+            return;
+        }
+        setLoading(false);
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast.error(error.message, false);
+        setLoading(false);
+    }
+}

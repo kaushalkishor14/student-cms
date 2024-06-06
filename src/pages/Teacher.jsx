@@ -39,8 +39,8 @@ export default function Teacher() {
   }, []);
 
   return (
-    <div className="flex flex-col w-[100%]">
-      <div className="flex-1 space-y-4 md:p-8">
+    <div className="py-15 w-[100%] mr-10">
+      <div className="">
         <EmployeeClient data={data} />
       </div>
     </div>

@@ -1,8 +1,6 @@
 import { useState } from "react";
-// import { useRouter } from "react";
-// import toast from "";
-// import { api } from "@/utils/api";
-import { Button, } from "@/components/ui/button";
+
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -11,29 +9,28 @@ import {
 } from "@/components/ui/tooltip";
 
 import { Pencil, Trash2 } from "lucide-react";
-// import { AlertModal } from "@/components/common/alert-modal";
 
-
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export function CellAction({ data }) {
-  // const router = useRouter();
-  const [alertModalOpen, setAlertModalOpen] = useState(false);
 
-  // const { refetch } = api.employee.getAll.useQuery(undefined, {
-  //   enabled: false,
-  // });
+// todo delte function
+  const DeleteRecord = () =>{
 
-  // const { mutate: deleteEmployee, isLoading: deleteEmployeeIsLoading } =
-  //   api.employee.delete.useMutation({
-  //     onError: (err) => {
-  //       toast.error(err.message);
-  //     },
-  //     onSuccess: async (data) => {
-  //       toast.success("Delete Employee success");
-  //       await refetch();
-  //     },
-  //   });
+  }
+// todo makesure pencil button wrok krna chachye ye thik kr lena aaj 
+// techer page bs teacher list of teacher show hona chchaye
+
 
   return (
     <div className="flex justify-center space-x-2">
@@ -60,32 +57,41 @@ export function CellAction({ data }) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-secondary"
-              onClick={() => {
-                setAlertModalOpen(true);
-              }}
-            >
-              <Trash2 className="h-4 w-4 text-foreground" />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-secondary"
+                  onClick={() => {
+                    // setAlertModalOpen(true);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 text-foreground" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your record and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => DeleteRecord(data._id)}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </TooltipTrigger>
           <TooltipContent>
             <p>Delete employee</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-
-      {/* <AlertModal
-        title="Are you sure?"
-        description="This action cannot be undone."
-        name={data.firstName}
-        isOpen={alertModalOpen}
-        onClose={() => setAlertModalOpen(false)}
-        onConfirm={() => deleteEmployee(data.id)}
-        loading={deleteEmployeeIsLoading}
-      /> */}
     </div>
   );
 }

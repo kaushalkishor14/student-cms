@@ -26,8 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertModal } from "@/components/common/alert-modal";
-
+import { AlertModal } from "../alert-modal";
 
 export const EmployeeForm = ({ initialData }) => {
   const router = useRouter();
@@ -41,7 +40,7 @@ export const EmployeeForm = ({ initialData }) => {
     : "Employee created successfully";
   const action = initialData ? "Save Changes" : "Create";
 
-  const form = useForm<EmployeeFromValues>({
+  const form = useForm({
     resolver: zodResolver(employeeFormSchema),
     defaultValues: initialData || {
       firstName: "",
@@ -92,7 +91,7 @@ export const EmployeeForm = ({ initialData }) => {
   };
 
   const onDelete = () => {
-    deleteEmployee(initialData?.id );
+    deleteEmployee(initialData?.id);
   };
 
   return (
@@ -180,10 +179,11 @@ export const EmployeeForm = ({ initialData }) => {
               )}
             />
           </div>
-          <div className="space-x-4">
+          <div className="">
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>
+
             <Button
               disabled={loading}
               className="ml-auto"
@@ -200,7 +200,7 @@ export const EmployeeForm = ({ initialData }) => {
       <AlertModal
         title="Are you sure?"
         description="This action cannot be undone."
-        name={initialData?.firstName}
+        name={initialData?.name}
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}

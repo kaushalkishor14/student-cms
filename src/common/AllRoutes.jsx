@@ -20,7 +20,7 @@ function AllRoutes() {
             <Route path="/student" element={<StudentPage />} />
             <Route path="/teacher" element={<Teacher/>}/>
             <Route path="/course/dsa" element={<Subject/>}/>
-            <Route path="/course/*" element={<Course/>}> 
+            <Route path="/" element={<Course/>}> 
               {/* here u can add Subroute like this way  */}
               <Route path="dsa" element={<Subject/>} />
             </Route> 

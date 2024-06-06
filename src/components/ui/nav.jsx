@@ -204,7 +204,7 @@ export function Nav({ links, isCollapsed }) {
           onClick={userLoggingOut}
           variant='ghost'
           disabled={loading}
-          className="w-full hover:bg-black hover:border hover:text-white">
+          className="w-full hover:bg-primary hover:border hover:text-white">
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
