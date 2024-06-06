@@ -23,14 +23,10 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export function CellAction({ data }) {
-
-// todo delte function
-  const DeleteRecord = () =>{
-
-  }
-// todo makesure pencil button wrok krna chachye ye thik kr lena aaj 
-// techer page bs teacher list of teacher show hona chchaye
-
+  // todo delte function
+  const DeleteRecord = () => {};
+  // todo makesure pencil button wrok krna chachye ye thik kr lena aaj
+  // techer page bs teacher list of teacher show hona chchaye
 
   return (
     <div className="flex justify-center space-x-2">
@@ -45,7 +41,9 @@ export function CellAction({ data }) {
                 // router.push(`/example/employees/${data.id}`);
               }}
             >
-              <Pencil className="h-4 w-4 text-foreground" />
+              <Link to={"/EmployeeForm"}>
+                <Pencil className="h-4 w-4 text-foreground" />
+              </Link>
             </Button>
           </TooltipTrigger>
           <TooltipContent>

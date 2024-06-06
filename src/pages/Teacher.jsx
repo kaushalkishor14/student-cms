@@ -1,7 +1,7 @@
 import React from "react";
 // import { api } from "@/utils/api";
 // import { Loading } from "@/components/common/loading";/
-import { EmployeeClient } from "../components/teacher-page.jsx/button";
+import { EmployeeClient } from "../components/teacher-page/button";
 // import Loading from '..//components/loading'
 import { useEffect } from "react";
 import params from "../common/params";
