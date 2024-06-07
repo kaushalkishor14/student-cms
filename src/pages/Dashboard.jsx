@@ -44,7 +44,7 @@ import Detail from "@/components/dashboard/Details";
 
 const Dashboard = () => {
   return (
-    <div className="flex py-15 w-[100%] mr-10 ">
+    <div className="flex  w-[100%] mr-10 ">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -152,8 +152,8 @@ const Dashboard = () => {
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2 ">
-                  {" "}
-                  <Overview />{" "}
+                
+                  <Overview />
                 </CardContent>
               </Card>
               <Card className="col-span-3">
@@ -164,7 +164,9 @@ const Dashboard = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Detail />
+                  {/* map */}
+                  <Detail
+                   />
                 </CardContent>
               </Card>
             </div>

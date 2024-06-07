@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
 import {
   Tooltip,
   TooltipContent,
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export function CellAction({ data }) {
+  const navigate = useNavigate();
   // todo delte function
   const DeleteRecord = () => {};
   // todo makesure pencil button wrok krna chachye ye thik kr lena aaj
@@ -38,9 +40,9 @@ export function CellAction({ data }) {
               variant="ghost"
               size="icon"
               className="hover:bg-secondary"
-              onClick={() => {
-                // router.push(`/example/employees/${data.id}`);
-              }}
+              
+                onClick={() => navigate(`/example/employees/${data.id}`)}
+              
             >
               
                 <Pencil className="h-4 w-4 text-foreground" />
