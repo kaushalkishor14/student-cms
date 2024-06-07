@@ -8,7 +8,7 @@ import Teacher from "@/pages/Teacher";
 import Subject from '@/pages/Subject'
 import Dashboard from "@/pages/Dashboard";
 import Course from "@/pages/Course";
-import EmployeeForm from "@/components/teacher-page/teacher-form"
+// import EmployeeForm from "@/components/teacher-page/teacher-form"
 function AllRoutes() {
   const { user } = useAuth();
   return (
@@ -26,7 +26,7 @@ function AllRoutes() {
               <Route path="dsa" element={<Subject/>} />
             </Route> 
             <Route path="*" element={<Dashboard />} />
-            <Route path="/EmployeeForm" element={<EmployeeForm/>}> </Route>
+            {/* <Route path="/EmployeeForm" element={<EmployeeForm/>}> </Route> */}
           </>
         ) : (
           <>

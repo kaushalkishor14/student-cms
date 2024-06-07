@@ -15,7 +15,7 @@ export const EmployeeClient = ({ data }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-2">
         {/* <Heading
           title="Employee (CRUD)"
           description="Manage employee for you business"

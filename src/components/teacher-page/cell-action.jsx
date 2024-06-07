@@ -33,6 +33,7 @@ export function CellAction({ data }) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
+          
             <Button
               variant="ghost"
               size="icon"
@@ -41,10 +42,11 @@ export function CellAction({ data }) {
                 // router.push(`/example/employees/${data.id}`);
               }}
             >
-              <Link to={"/EmployeeForm"}>
+              
                 <Pencil className="h-4 w-4 text-foreground" />
-              </Link>
+           
             </Button>
+          
           </TooltipTrigger>
           <TooltipContent>
             <p>Update employee</p>

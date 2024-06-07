@@ -1,65 +1,194 @@
+import React from "react";
+import { useState } from "react";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardContent,
+  CardDescription,
+  Card,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+// import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
+// import { Overview } from "@/components/dashboard/overview";
+// import { RecentSales } from "@/components/dashboard/recent-sales";
+import { Overview } from "@/components/dashboard/overview";
 import { UsersRound } from "lucide-react";
+// import {Details} from "@/components/dashboard/details"
+import Detail from "@/components/dashboard/Details";
 
-export default function () {
+
+const studentDetails =[
+  {
+    name: "kaushal kishor",
+    email: "kaushal12@gmail.com",
+    batch:"Btach-1"
+  },
+  {
+    name: "Suraj kumar",
+    email: "suraj123@gmail.com",
+    batch:"Btach-2"
+  },
+  {
+    name: "Roy",
+    email: "roy12@gmail.com",
+    batch:"Btach-2"
+  },
+  {
+    name: "vikee kumar",
+    email: "vikee12@gmail.com",
+    batch:"Btach-3"
+  },
+  {
+    name: "vivek raj",
+    email: "vivekl12@gmail.com",
+    batch:"Btach-3"
+  },
+]
+
+
+const Dashboard = () => {
+  
+
   return (
-    <>
-    <h1 className="text-2xl">Dashboard</h1>
-    <div className="flex  gap-8 w-full  ">
-      {/* <h1 className="text-2xl">Dashboard</h1> */}
-      <Card className="flex w-[25%]  bg-purple-500  ">
-        <div className="flex items-center p-4  ">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+    <div className="flex h-full flex-col w-full ">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          
         </div>
-        <div className="w-full mt-4 p-6 items-center ">
-          <p className="text-white">TOTAL STUDENTS</p>
-          <h1 className="text-white font-bold ">3000</h1>
-          <small className="text-gray-300 font-semibold">80% Increase in 20Days</small>
-        </div>
-      </Card>
-
-      <Card className="flex w-[25%] bg-orange-500  ">
-        <div className="flex items-center p-4  ">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </div>
-        <div className="w-full  mt-4 p-6">
-          <p className="text-white">TOTAL COURSE</p>
-          <h1 className="text-white font-bold ">30</h1>
-          <small className="text-gray-300 font-semibold">76% Increase in 20 Days</small>
-        </div>
-      </Card>
-
-      <Card className="flex w-[25%] rounded bg-blue-500 ">
-        <div className="flex items-center p-4 ">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </div>
-        <div className=" items-center  mt-4 p-6 ">
-          <p className=" text-white">NEW STUDENTS</p>
-          <h1 className="text-white font-bold ">245</h1>
-          <small className="text-gray-300 font-semibold">40% Increase in 20Days</small>
-        </div>
-      </Card>
-      
-      
+        <Tabs defaultValue="overview" className="space-y-4">
+          <TabsList>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            
+          </TabsList>
+          <TabsContent value="overview" className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Total Student
+                  </CardTitle>
+                 <UsersRound/>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">3034</div>
+                  <p className="text-xs text-muted-foreground">
+                    +20.1% from last month
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    New Student
+                  </CardTitle>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="h-4 w-4 text-muted-foreground"
+                  >
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">+235</div>
+                  <p className="text-xs text-muted-foreground">
+                    +5.1% from last month
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Courses</CardTitle>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="h-4 w-4 text-muted-foreground"
+                  >
+                    <rect width="20" height="14" x="2" y="5" rx="2" />
+                    <path d="M2 10h20" />
+                  </svg>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">+20</div>
+                  <p className="text-xs text-muted-foreground">
+                  Data Structures & Algorithms: Master Problem-Solving
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Active Batch
+                  </CardTitle>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="h-4 w-4 text-muted-foreground"
+                  >
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  </svg>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">+10</div>
+                  <p className="text-xs text-muted-foreground">
+                    +5 since last hour
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+              <Card className="col-span-4">
+                <CardHeader>
+                  <CardTitle>Overview</CardTitle>
+                </CardHeader>
+                <CardContent className="pl-2 "> <Overview /> </CardContent>
+              </Card>
+              <Card className="col-span-3">
+                <CardHeader>
+                  <CardTitle>Student Details</CardTitle>
+                  <CardDescription>
+                     Join 20 new student in this month.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  
+                  {studentDetails.map((d, i)=>(
+                    <Detail key={i}
+                    name={d.name}
+                    email={d.email}
+                    batch={d.batch}
+                    
+                    />
+                   
+                  ))}  
+                  
+                  </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
-    </>
   );
-}
+};
+
+export default Dashboard;
