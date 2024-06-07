@@ -1,7 +1,8 @@
 {
-    "baseURL": "http://localhost:8000",
+    "LocalBaseURL": "http://localhost:8000/api/v1",
     "productionBaseAuthURL": "https://sure-trust-qanda-backend.onrender.com/api/v1/auth",
     "refreshTokenURL" : "https://sure-trust-qanda-backend.onrender.com/api/v1/auth/refreshAccessTokenURL",
     "CourseURL" : "https://sure-trust-qanda-backend.onrender.com/api/v1/course",
+    "BatchURL" : "https://sure-trust-qanda-backend.onrender.com/api/v1/batch",
     "port": 8000
 }

@@ -4,8 +4,6 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-  // SortingState,this is type de funtion of sorting
-  // ColumnFiltersState,
   getFilteredRowModel,
   getSortedRowModel,
 } from "@tanstack/react-table";
@@ -30,13 +28,9 @@ import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function DataTable({ columns, data }) {
-  // state for sorting
   const [sorting, setSorting] = useState([]);
-  // state for filter
   const [columnFilters, setColumnFilters] = useState([]);
-
   const [columnVisibility, setColumnVisibility] = useState({});
-
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -60,7 +54,6 @@ export default function DataTable({ columns, data }) {
 
   return (
     <>
-      {/* table */}
       <div className="flex items-center justify-between">
         <div className="flex items-center py-4">
           <Input
@@ -105,44 +98,44 @@ export default function DataTable({ columns, data }) {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                // Check the role of the row
+                const roleCell = row.getAllCells().find(cell => cell.column.id === 'role');
+                if (roleCell?.getValue() !== 'student') {
+                  return null; // Skip rendering this row if the role is not Student
+                }
+
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -151,12 +144,11 @@ export default function DataTable({ columns, data }) {
         </Table>
       </div>
 
-      {/* pagination */}
       <div className="flex items-center justify-end space-x-2 py-4">
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
-      </div>
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
         <Button
           variant="outline"
           size="sm"
@@ -173,11 +165,7 @@ export default function DataTable({ columns, data }) {
         >
           Next
         </Button>
-       
-       
       </div>
-     
-     
     </>
   );
 }

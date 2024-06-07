@@ -1,8 +1,6 @@
 import { toast } from "react-toastify";
 import params from './params.json';
 import axios from 'axios';
-// import { c } from "vite/dist/node/types.d-aGj9QkWt";
-
 
 // function to notify user
 const notify = (message, { type }) => {
@@ -22,9 +20,9 @@ function isTokenExpired(token) {
 
 // function call before every api call to check if token is expired
 export const checkingTokenExpiry = async () => {
-    try{
+    try {
         const token = JSON.parse(localStorage.getItem('accessToken'));
-        if (isTokenExpired(token)){
+        if (isTokenExpired(token)) {
             const response = await axios.get(`${params?.productionBaseAuthURL}/refreshAccessToken`, {
                 withCredentials: true,
                 headers: {
@@ -44,7 +42,7 @@ export const checkingTokenExpiry = async () => {
                 throw new Error(response.data.message);
             }
         }
-        return null;
+        return token;
     } catch (error) {
         toast.error("Token expired, please login again", false);
         localStorage.removeItem('accessToken');
@@ -57,7 +55,7 @@ export const checkingTokenExpiry = async () => {
     }
 }
 
-export async function LoginUser(userDetail, setLoading, navigate, login, setAccessToken, setRefreshToken) { 
+export async function LoginUser(userDetail, setLoading, navigate, login, setAccessToken, setRefreshToken) {
     //userDetail, setLoading
     try {
         setLoading(true);
@@ -188,30 +186,156 @@ export const UserLogout = async (navigate, logoutContextApi, setLoading) => {
 }
 
 
-// export async function CourseNames(courseName, setLoading) {
-//     try {
-//         setLoading(true);
-//         let newToken = await checkingTokenExpiry();
-//         console.log("New Token : ", newToken);
-//         const response = await axios.post(`${params?.CourseURL}/getCourse`, {
-//             withCredentials: true,
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': 'Bearer ' + newToken,
-//             }
-//         });
+export async function CourseNames(setCourseName, setLoading) {
+    try {
+        setLoading(true);
+        let newToken = await checkingTokenExpiry();
 
-//         if (response.status === 200) {
-//             notify(response.data.message, { type: true });
-//             // courseName(response.data.data);
-//             // navigate('/course');
-//             setLoading(false);
-//             return;
-//         }
-//         setLoading(false);
-//         throw new Error(response.data.message);
-//     } catch (error) {
-//         toast.error(error.message, false);
-//         setLoading(false);
-//     }
-// }
+        if (!newToken) {
+            newToken = JSON.parse(localStorage.getItem('accessToken'));
+        }
+
+        const response = await axios.get(`${params?.CourseURL}/getCourse`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + newToken,
+            }
+        });
+
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            setCourseName(response.data.data);
+            console.log(response.data.message)
+            // console.log("Course Name : ", response.data.data);
+            // navigate('/course');
+            setLoading(false);
+            return;
+        }
+        setLoading(false);
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast.error(error.message, false);
+        setLoading(false);
+    }
+}
+
+
+export async function AddCourse(courseDetail, setLoading, navigate) {
+    try {
+        setLoading(true);
+        let newToken = await checkingTokenExpiry();
+        if (!newToken) {
+            newToken = JSON.parse(localStorage.getItem('accessToken'));
+        }
+
+        const response = await axios.post(`${params?.CourseURL}/addCourse`, courseDetail, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + newToken,
+            }
+        });
+
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            navigate('/course');
+            setLoading(false);
+            return;
+        }
+        setLoading(false);
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast.error(error.message, false);
+        setLoading(false);
+    }
+}
+
+
+export async function getBatchById(id) {
+    try {
+        let newToken = await checkingTokenExpiry();
+        if (!newToken) {
+            newToken = JSON.parse(localStorage.getItem('accessToken'));
+        }
+        // const response = await axios.get(`${params?.BatchURL}/getBatchById/${id}`, {
+        const response = await axios.get(`${params?.LocalBaseURL}/batch/getBatchById/${id}`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + newToken,
+            }
+        });
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            return response.data.data;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast.error(error.message, false);
+    }
+}
+
+export async function getCourseById(id) {
+
+    try {
+        let newToken = await checkingTokenExpiry();
+        if (!newToken) {
+            newToken = JSON.parse(localStorage.getItem('accessToken'));
+        }
+        const response = await axios.get(`${params.CourseURL}/getCourseById/${id}`, {
+        // const response = await axios.get(`${params.LocalBaseURL}/course/getCourseById/${id}`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + newToken,
+            }
+        });
+
+
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            return response.data.data;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        console.log("Error in getCourseById : ", error);
+        console.log("Error in getCourseById : ", error.message);
+        toast.error(error.message, false);
+    }
+}
+
+
+export async function addNewBatch(batchDetail, courseId){
+    console.log("batchDetail : ", batchDetail, "Course Id ",courseId);
+    try {
+        let newToken = await checkingTokenExpiry();
+        if (!newToken) {
+            newToken = JSON.parse(localStorage.getItem('accessToken'));
+        }
+
+        const batchData = {
+            batchName: batchDetail.batchName,
+            startDate: batchDetail.startDate,
+            courseId: courseId
+        }
+        const response = await axios.post(`${params?.LocalBaseURL}/batch/addBatch/`,batchData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + newToken,
+            }
+        });
+
+        if (response.status === 200) {
+            notify(response.data.message, { type: true });
+            console.log("Batch added successfully");
+            return;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        console.log("Error in addNewBatch : ", error.message);
+        toast.error(error.message, false);
+    }
+
+}
