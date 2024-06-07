@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
 import LoginPage from "../pages/LoginPage";
 import StudentPage from "@/pages/users/StudentPage";
 import { useAuth } from "./AuthProvider";
@@ -14,7 +13,7 @@ function AllRoutes() {
   return (
     <Routes>
       <>
-        {user ? (
+      {user ? (
           <>
             <Route path="/" element={<Dashboard />} />
             <Route path="/student" element={<StudentPage />} />

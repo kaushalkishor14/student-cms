@@ -22,14 +22,14 @@ import { columns } from "../pages/users/columns";
 import params from '../common/params';
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
 import { PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { checkingTokenExpiry } from '../common/apiHandler';
+import { checkingTokenExpiry , getCourseById , addNewBatch} from '../common/apiHandler';
 
 async function getUsers(setData) {
-  
+ 
   let  newToken = await checkingTokenExpiry();
   if (!newToken) {
     newToken = JSON.parse(localStorage.getItem('accessToken'));
@@ -44,11 +44,37 @@ async function getUsers(setData) {
   setData(response.data.data)
 }
 
+
+
 export default function Subject() {
+  const { name } = useParams();
   const [data, setData] = useState([]);
+  const [batchs , setBatchs] = useState([]);
+
+  const [newBatch, setBatch] = useState(
+    {
+      batchName: "",
+      startDate: "",
+      courseId: ""
+    }
+    );
+
+
+  function handelInputChange(e) {
+    const { name, value } = e.target;
+    setBatch({
+      ...newBatch,
+      [name]: value
+    });
+  }
+
   useEffect(() => {
     getUsers(setData)
+    getCourseById(name).then((data) => {
+      setBatchs(data);
+    });
   }, []);
+
 
   return (
     <div className="py-15 w-[100%] mr-10">
@@ -61,9 +87,11 @@ export default function Subject() {
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent position="popper">
-              <SelectItem value="next">Batch-1</SelectItem>
-              <SelectItem value="sveltekit">Batch-2</SelectItem>
-              <SelectItem value="astro">Batch-3</SelectItem>
+              {batchs?.batches?.map((batch) => (
+                <SelectItem key={batch._id} value={batch.batchName}>{batch.batchName}</SelectItem>
+              ))}
+              {/* <SelectItem value="sveltekit">Batch-2</SelectItem>
+              <SelectItem value="astro">Batch-3</SelectItem> */}
             </SelectContent>
           </Select>
         </div>
@@ -88,18 +116,33 @@ export default function Subject() {
                 <Label htmlFor="name" className="text-right">
                   Name
                 </Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                <Input
+                  name="batchName" 
+                  id="batch-Name" 
+                  value={newBatch?.batchName} 
+                  onChange={handelInputChange}
+                  className="col-span-3" 
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
                   Username
                 </Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
+                <Input
+                  type="date"
+                  name="startDate" 
+                  id="username" 
+                  // value="" 
+                  className="col-span-3"
+                  onChange={handelInputChange} 
+                />
               </div>
             </div>
             <SheetFooter>
               <SheetClose asChild>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit"
+                  onClick={()=> addNewBatch(newBatch, name) }
+                >Save changes</Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
