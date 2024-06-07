@@ -9,58 +9,49 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-// import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
-// import { Overview } from "@/components/dashboard/overview";
-// import { RecentSales } from "@/components/dashboard/recent-sales";
 import { Overview } from "@/components/dashboard/overview";
 import { UsersRound } from "lucide-react";
-// import {Details} from "@/components/dashboard/details"
+
 import Detail from "@/components/dashboard/Details";
 
-
-const studentDetails =[
-  {
-    name: "kaushal kishor",
-    email: "kaushal12@gmail.com",
-    batch:"Btach-1"
-  },
-  {
-    name: "Suraj kumar",
-    email: "suraj123@gmail.com",
-    batch:"Btach-2"
-  },
-  {
-    name: "Roy",
-    email: "roy12@gmail.com",
-    batch:"Btach-2"
-  },
-  {
-    name: "vikee kumar",
-    email: "vikee12@gmail.com",
-    batch:"Btach-3"
-  },
-  {
-    name: "vivek raj",
-    email: "vivekl12@gmail.com",
-    batch:"Btach-3"
-  },
-]
-
+// const studentDetails =[
+//   {
+//     name: "kaushal kishor",
+//     email: "kaushal12@gmail.com",
+//     batch:"Btach-1"
+//   },
+//   {
+//     name: "Suraj kumar",
+//     email: "suraj123@gmail.com",
+//     batch:"Btach-2"
+//   },
+//   {
+//     name: "Roy",
+//     email: "roy12@gmail.com",
+//     batch:"Btach-2"
+//   },
+//   {
+//     name: "vikee kumar",
+//     email: "vikee12@gmail.com",
+//     batch:"Btach-3"
+//   },
+//   {
+//     name: "vivek raj",
+//     email: "vivekl12@gmail.com",
+//     batch:"Btach-3"
+//   },
+// ]
 
 const Dashboard = () => {
-  
-
   return (
-    <div className="flex h-full flex-col w-full ">
+    <div className="flex py-15 w-[100%] mr-10 ">
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -69,7 +60,7 @@ const Dashboard = () => {
                   <CardTitle className="text-sm font-medium">
                     Total Student
                   </CardTitle>
-                 <UsersRound/>
+                  <UsersRound />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">3034</div>
@@ -125,7 +116,7 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="text-2xl font-bold">+20</div>
                   <p className="text-xs text-muted-foreground">
-                  Data Structures & Algorithms: Master Problem-Solving
+                    Data Structures & Algorithms: Master Problem-Solving
                   </p>
                 </CardContent>
               </Card>
@@ -160,28 +151,21 @@ const Dashboard = () => {
                 <CardHeader>
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
-                <CardContent className="pl-2 "> <Overview /> </CardContent>
+                <CardContent className="pl-2 ">
+                  {" "}
+                  <Overview />{" "}
+                </CardContent>
               </Card>
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Student Details</CardTitle>
                   <CardDescription>
-                     Join 20 new student in this month.
+                    Join 20 new student in this month.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  
-                  {studentDetails.map((d, i)=>(
-                    <Detail key={i}
-                    name={d.name}
-                    email={d.email}
-                    batch={d.batch}
-                    
-                    />
-                   
-                  ))}  
-                  
-                  </CardContent>
+                  <Detail />
+                </CardContent>
               </Card>
             </div>
           </TabsContent>
