@@ -307,7 +307,6 @@ export async function getCourseById(id) {
 
 
 export async function addNewBatch(batchDetail, courseId){
-    console.log("batchDetail : ", batchDetail, "Course Id ",courseId);
     try {
         let newToken = await checkingTokenExpiry();
         if (!newToken) {
@@ -319,7 +318,7 @@ export async function addNewBatch(batchDetail, courseId){
             startDate: batchDetail.startDate,
             courseId: courseId
         }
-        const response = await axios.post(`${params?.LocalBaseURL}/batch/addBatch/`,batchData, {
+        const response = await axios.post(`${params?.BatchURL}/addBatch/`,batchData, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
