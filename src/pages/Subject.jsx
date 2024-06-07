@@ -106,15 +106,15 @@ export default function Subject() {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Edit profile</SheetTitle>
+              <SheetTitle>Add New Batch</SheetTitle>
               <SheetDescription>
-                Make changes to your profile here. Click save when you're done.
+                Add new Batch your Database here. Click save when you're done.
               </SheetDescription>
             </SheetHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
-                  Name
+                  Batch Name
                 </Label>
                 <Input
                   name="batchName" 
@@ -126,7 +126,7 @@ export default function Subject() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="username" className="text-right">
-                  Username
+                  Start Date
                 </Label>
                 <Input
                   type="date"

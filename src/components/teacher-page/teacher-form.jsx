@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-
-// import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-
-// import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "@/utils/api";
-// import toast from "react-hot-toast";
-// import { Heading } from "@/components/common/heading";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -26,7 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { AlertModal } from "../alert-modal";
+import { AlertModal } from "@/components/alert-modal";
+
 
 export const EmployeeForm = ({ initialData }) => {
   // const router = useRouter();
@@ -40,45 +34,12 @@ export const EmployeeForm = ({ initialData }) => {
     : "Employee created successfully";
   const action = initialData ? "Save Changes" : "Create";
 
-  const form = useForm({
-    resolver: zodResolver(employeeFormSchema),
-    defaultValues: initialData || {
-      firstName: "",
-      lastName: "",
-      gender: "",
-    },
-  });
+  const form = useForm();
 
-  const { mutate: createEmployee } = api.employee.create.useMutation({
-    onError: (err) => {
-      toast.error(err.message);
-    },
-    onSuccess: (data) => {
-      toast.success(toastMessage);
-      router.push(`/example/employees`);
-    },
-  });
-
-  const { mutate: updateEmployee } = api.employee.update.useMutation({
-    onError: (err) => {
-      toast.error(err.message);
-    },
-    onSuccess: (data) => {
-      toast.success(toastMessage);
-      router.push(`/example/employees`);
-    },
-  });
-
-  const { mutate: deleteEmployee, isLoading: deleteEmployeeIsLoading } =
-    api.employee.delete.useMutation({
-      onError: (err) => {
-        toast.error(err.message);
-      },
-      onSuccess: (data) => {
-        toast.success(toastMessage);
-        router.push(`/example/employees`);
-      },
-    });
+  function deleteEmployeeIsLoading() {
+    console.log("deleteEmployeeIsLoading");
+  }
+  
 
   const onSubmit = (values) => {
     setLoading(true);
