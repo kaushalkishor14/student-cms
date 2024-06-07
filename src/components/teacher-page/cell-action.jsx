@@ -25,10 +25,17 @@ import {
 
 export function CellAction({ data }) {
   const navigate = useNavigate();
-  // todo delte function
-  const DeleteRecord = () => {};
-  // todo makesure pencil button wrok krna chachye ye thik kr lena aaj
-  // techer page bs teacher list of teacher show hona chchaye
+  
+  // Function to handle deletion of a record
+  // const DeleteRecord = async (_id) => {
+  //   try {
+  //     const response = await axios.delete(`/api/employees/${_id}`);
+  //     console.log('Record deleted successfully', response.data);
+  //     // Optionally, add logic to update the UI after deletion
+  //   } catch (error) {
+  //     console.error('Error deleting record:', error);
+  //   }
+  // };
 
   return (
     <div className="flex justify-center space-x-2">
