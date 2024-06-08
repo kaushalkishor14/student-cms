@@ -306,7 +306,7 @@ export async function getCourseById(id) {
 }
 
 
-export async function addNewBatch(batchDetail, courseId){
+export async function addNewBatch(batchDetail, courseId, setNewBatchs){
     try {
         let newToken = await checkingTokenExpiry();
         if (!newToken) {
@@ -329,10 +329,18 @@ export async function addNewBatch(batchDetail, courseId){
         if (response.status === 200) {
             notify(response.data.message, { type: true });
             console.log("Batch added successfully");
+            setNewBatchs(response.data.data);
             return;
+        }
+        if(response.status === 201){
+            notify(response.data.message, { type: true });
+            console.log("Batch added successfully");
+            setNewBatchs(response.data.data);
+            return response.data.data;
         }
         throw new Error(response.data.message);
     } catch (error) {
+
         console.log("Error in addNewBatch : ", error.message);
         toast.error(error.message, false);
     }
