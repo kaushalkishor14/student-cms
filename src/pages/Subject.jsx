@@ -26,15 +26,18 @@ import { useParams } from "react-router-dom";
 import { PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { checkingTokenExpiry , getCourseById , addNewBatch} from '../common/apiHandler';
+import { checkingTokenExpiry, getCourseById, addNewBatch } from '../common/apiHandler';
+
+import { buttonVariants } from "@/components/ui/button";
+import { TrashIcon } from "lucide-react";
 
 async function getUsers(setData) {
- 
-  let  newToken = await checkingTokenExpiry();
+
+  let newToken = await checkingTokenExpiry();
   if (!newToken) {
     newToken = JSON.parse(localStorage.getItem('accessToken'));
   }
-  const response = await axios.get(params?.productionBaseAuthURL+'/users', {
+  const response = await axios.get(params?.productionBaseAuthURL + '/users', {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + newToken,
@@ -49,7 +52,8 @@ async function getUsers(setData) {
 export default function Subject() {
   const { name } = useParams();
   const [data, setData] = useState([]);
-  const [batchs , setBatchs] = useState([]);
+  const [batchs, setBatchs] = useState([]);
+  const [newBatchs, setNewBatchs] = useState(null);
 
   const [newBatch, setBatch] = useState(
     {
@@ -57,7 +61,7 @@ export default function Subject() {
       startDate: "",
       courseId: ""
     }
-    );
+  );
 
 
   function handelInputChange(e) {
@@ -68,12 +72,18 @@ export default function Subject() {
     });
   }
 
+
+  async function addNewbatchTotheCourse() {
+    await addNewBatch(newBatch, name, setNewBatchs);
+  }
+
   useEffect(() => {
     getUsers(setData)
     getCourseById(name).then((data) => {
       setBatchs(data);
     });
-  }, []);
+
+  }, [newBatchs]);
 
 
   return (
@@ -88,7 +98,12 @@ export default function Subject() {
             </SelectTrigger>
             <SelectContent position="popper">
               {batchs?.batches?.map((batch) => (
-                <SelectItem key={batch._id} value={batch.batchName}>{batch.batchName}</SelectItem>
+                <SelectItem
+                  key={batch._id}
+                  value={batch.batchName}
+                >
+                  {batch.batchName}
+                </SelectItem>
               ))}
               {/* <SelectItem value="sveltekit">Batch-2</SelectItem>
               <SelectItem value="astro">Batch-3</SelectItem> */}
@@ -117,11 +132,12 @@ export default function Subject() {
                   Batch Name
                 </Label>
                 <Input
-                  name="batchName" 
-                  id="batch-Name" 
-                  value={newBatch?.batchName} 
+                  name="batchName"
+                  id="batch-Name"
+                  value={newBatch?.batchName}
                   onChange={handelInputChange}
-                  className="col-span-3" 
+                  className="col-span-3"
+                  required
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -130,18 +146,19 @@ export default function Subject() {
                 </Label>
                 <Input
                   type="date"
-                  name="startDate" 
-                  id="username" 
+                  name="startDate"
+                  id="username"
+                  required
                   // value="" 
                   className="col-span-3"
-                  onChange={handelInputChange} 
+                  onChange={handelInputChange}
                 />
               </div>
             </div>
             <SheetFooter>
               <SheetClose asChild>
                 <Button type="submit"
-                  onClick={()=> addNewBatch(newBatch, name) }
+                  onClick={addNewbatchTotheCourse}
                 >Save changes</Button>
               </SheetClose>
             </SheetFooter>
