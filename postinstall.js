@@ -1,4 +1,4 @@
-const os = require('os');
+import os from 'os';
 const { execSync } = require('child_process');
 
 const platform = os.platform();

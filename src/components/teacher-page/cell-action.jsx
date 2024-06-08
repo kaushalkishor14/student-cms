@@ -36,6 +36,7 @@ export function CellAction({ data }) {
   //     console.error('Error deleting record:', error);
   //   }
   // };
+   
 
   return (
     <div className="flex justify-center space-x-2">
