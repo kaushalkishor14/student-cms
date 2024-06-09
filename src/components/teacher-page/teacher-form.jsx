@@ -1,5 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+// import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -19,46 +24,119 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertModal } from "@/components/alert-modal";
 
+// Define the schema using Zod
+export const teacherFormSchema = z.object({
+  firstName: z.string().nonempty({ message: "First name is required" }),
+  lastName: z.string().nonempty({ message: "Last name is required" }),
+  batch: z.string().nonempty({ message: "Batch is required" }),
+  course: z.string().nonempty({ message: "Course is required" }),
+});
 
-export const EmployeeForm = ({ initialData }) => {
-  // const router = useRouter();
+// AlertModal Component
+const AlertModal = ({ title, description, name, isOpen, onClose, onConfirm, loading }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold">{title}</h2>
+        <p className="mt-4">{description}</p>
+        <p className="mt-2 font-bold">{name}</p>
+        <div className="mt-6 flex justify-end space-x-4">
+          <Button variant="outline" onClick={onClose} disabled={loading}>
+            Cancel
+          </Button>
+          <Button variant="destructive" onClick={onConfirm} disabled={loading}>
+            {loading ? "Deleting..." : "Delete"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Heading Component
+const Heading = ({ title, description }) => (
+  <div>
+    <h1 className="text-2xl font-bold">{title}</h1>
+    <p className="mt-2 text-gray-600">{description}</p>
+  </div>
+);
+
+// TeacherForm Component
+export const TeacherForm = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit employee" : "Create employee";
-  const description = initialData ? "Edit a employee" : "Create a new employee";
+  const title = initialData ? "Edit Teacher" : "Create Teacher";
+  const description = initialData ? "Edit a teacher" : "Create a new teacher";
   const toastMessage = initialData
-    ? "Employee updated successfully"
-    : "Employee created successfully";
+    ? "Teacher updated successfully"
+    : "Teacher created successfully";
   const action = initialData ? "Save Changes" : "Create";
 
-  const form = useForm();
+  const form = useForm({
+    resolver: zodResolver(teacherFormSchema),
+    defaultValues: initialData || {
+      firstName: "",
+      lastName: "",
+      batch: "",
+      course: "",
+    },
+  });
 
-  function deleteEmployeeIsLoading() {
-    console.log("deleteEmployeeIsLoading");
-  }
-  
+  const createTeacher = async (data) => {
+    try {
+      // Replace with your create teacher API call
+      await api.teacher.create(data);
+      toast.success(toastMessage);
+      // Redirect or update the state to show the list of teachers
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const updateTeacher = async (data) => {
+    try {
+      // Replace with your update teacher API call
+      await api.teacher.update({ ...data, id: initialData.id });
+      toast.success(toastMessage);
+      // Redirect or update the state to show the list of teachers
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const deleteTeacher = async (id) => {
+    try {
+      // Replace with your delete teacher API call
+      await api.teacher.delete(id);
+      toast.success("Teacher deleted successfully");
+      // Redirect or update the state to show the list of teachers
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
 
   const onSubmit = (values) => {
     setLoading(true);
     if (initialData) {
-      updateEmployee({ ...values, id: initialData.id });
+      updateTeacher({ ...values, id: initialData.id });
     } else {
-      createEmployee(values);
+      createTeacher(values);
     }
     setLoading(false);
   };
 
   const onDelete = () => {
-    deleteEmployee(initialData?.id);
+    deleteTeacher(initialData?.id);
   };
 
   return (
     <>
-      <div className="flex  justify-between">
-        {/* <Heading title={title} description={description} /> */}
+      <div className="flex items-center justify-between">
+        <Heading title={title} description={description} />
         {initialData && (
           <Button
             disabled={loading}
@@ -83,7 +161,7 @@ export const EmployeeForm = ({ initialData }) => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel> Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -96,10 +174,10 @@ export const EmployeeForm = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -112,10 +190,10 @@ export const EmployeeForm = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name="gender"
+              name="batch"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel>Batch</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -126,13 +204,44 @@ export const EmployeeForm = ({ initialData }) => {
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Gender"
+                          placeholder="Batch"
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="2021">2021</SelectItem>
+                      <SelectItem value="2022">2022</SelectItem>
+                      <SelectItem value="2023">2023</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="course"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Course</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Course"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="math">Math</SelectItem>
+                      <SelectItem value="science">Science</SelectItem>
+                      <SelectItem value="history">History</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -140,17 +249,17 @@ export const EmployeeForm = ({ initialData }) => {
               )}
             />
           </div>
-          <div className="">
+          <div className="space-x-4">
             <Button disabled={loading} className="ml-auto" type="submit">
               {action}
             </Button>
-
             <Button
               disabled={loading}
               className="ml-auto"
               type="button"
               onClick={() => {
-                router.back();
+                // Logic to go back to the previous page
+                window.history.back();
               }}
             >
               Cancel
@@ -161,11 +270,11 @@ export const EmployeeForm = ({ initialData }) => {
       <AlertModal
         title="Are you sure?"
         description="This action cannot be undone."
-        name={initialData?.name}
+        name={initialData?.firstName}
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
-        loading={deleteEmployeeIsLoading}
+        // loading={deleteTeacherIsLoading}
       />
     </>
   );

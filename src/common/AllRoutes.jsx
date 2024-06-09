@@ -7,7 +7,7 @@ import Teacher from "@/pages/Teacher";
 import Subject from '@/pages/Subject'
 import Dashboard from "@/pages/Dashboard";
 import Course from "@/pages/Course";
-import {EmployeeForm} from "@/components/teacher-page/teacher-form";
+import {TeacherForm} from "@/components/teacher-page/teacher-form";
 
 
 function AllRoutes() {
@@ -33,7 +33,7 @@ function AllRoutes() {
           </>
         )}
       </>
-      <Route path='/test' element={<EmployeeForm/>} />
+      <Route path='/teacher-from' element={<TeacherForm/>} />
     </Routes>
   );
 }

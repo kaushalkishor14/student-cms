@@ -42,7 +42,7 @@ import Detail from "@/components/dashboard/Details";
 //   },
 // ]
 
-const Dashboard = () => {
+const Dashboard = ()=> {
   return (
     <div className="flex  w-[100%] mr-10 ">
       <div className="flex-1 space-y-4 p-8 pt-6">

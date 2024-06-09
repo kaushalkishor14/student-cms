@@ -105,13 +105,11 @@ export default function Subject() {
                   {batch.batchName}
                 </SelectItem>
               ))}
-              {/* <SelectItem value="sveltekit">Batch-2</SelectItem>
-              <SelectItem value="astro">Batch-3</SelectItem> */}
+              
             </SelectContent>
           </Select>
         </div>
-        {/* <Button type="submit">
-          <PlusCircle className="items-center mr-1" />Add Batch</Button> */}
+        
         <Sheet>
           <SheetTrigger asChild>
             <Button type="submit">
