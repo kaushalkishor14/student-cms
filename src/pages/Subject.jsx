@@ -170,7 +170,6 @@ export default function Subject() {
           <DataTable columns={columns} data={data} />
         </div>
       </section>
-
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   CardHeader,
@@ -11,38 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Overview } from "@/components/dashboard/overview";
 import { UsersRound } from "lucide-react";
-
+import { getUsers } from '../common/apiHandler'
 import Detail from "@/components/dashboard/Details";
 
-// const studentDetails =[
-//   {
-//     name: "kaushal kishor",
-//     email: "kaushal12@gmail.com",
-//     batch:"Btach-1"
-//   },
-//   {
-//     name: "Suraj kumar",
-//     email: "suraj123@gmail.com",
-//     batch:"Btach-2"
-//   },
-//   {
-//     name: "Roy",
-//     email: "roy12@gmail.com",
-//     batch:"Btach-2"
-//   },
-//   {
-//     name: "vikee kumar",
-//     email: "vikee12@gmail.com",
-//     batch:"Btach-3"
-//   },
-//   {
-//     name: "vivek raj",
-//     email: "vivekl12@gmail.com",
-//     batch:"Btach-3"
-//   },
-// ]
 
 const Dashboard = ()=> {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getUsers(setData);
+  },[]);
+
   return (
     <div className="flex  w-[100%] mr-10 ">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -163,10 +142,13 @@ const Dashboard = ()=> {
                     Join 20 new student in this month.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col gap-2">
                   {/* map */}
-                  <Detail
-                   />
+                  {
+                    data.map((user, index) => (
+                      <Detail key={index} user={user} />
+                    ))
+                  }
                 </CardContent>
               </Card>
             </div>

@@ -284,7 +284,7 @@ export async function getCourseById(id) {
             newToken = JSON.parse(localStorage.getItem('accessToken'));
         }
         const response = await axios.get(`${params.CourseURL}/getCourseById/${id}`, {
-        // const response = await axios.get(`${params.LocalBaseURL}/course/getCourseById/${id}`, {
+            // const response = await axios.get(`${params.LocalBaseURL}/course/getCourseById/${id}`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -306,7 +306,7 @@ export async function getCourseById(id) {
 }
 
 
-export async function addNewBatch(batchDetail, courseId, setNewBatchs){
+export async function addNewBatch(batchDetail, courseId, setNewBatchs) {
     try {
         let newToken = await checkingTokenExpiry();
         if (!newToken) {
@@ -318,7 +318,7 @@ export async function addNewBatch(batchDetail, courseId, setNewBatchs){
             startDate: batchDetail.startDate,
             courseId: courseId
         }
-        const response = await axios.post(`${params?.BatchURL}/addBatch/`,batchData, {
+        const response = await axios.post(`${params?.BatchURL}/addBatch/`, batchData, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -332,7 +332,7 @@ export async function addNewBatch(batchDetail, courseId, setNewBatchs){
             setNewBatchs(response.data.data);
             return;
         }
-        if(response.status === 201){
+        if (response.status === 201) {
             notify(response.data.message, { type: true });
             console.log("Batch added successfully");
             setNewBatchs(response.data.data);
@@ -345,4 +345,49 @@ export async function addNewBatch(batchDetail, courseId, setNewBatchs){
         toast.error(error.message, false);
     }
 
+}
+
+
+export async function userById(id) {
+    try {
+        let newToken = await checkingTokenExpiry();
+
+        const response = await axios.get(`${params?.productionBaseAuthURL}/userById/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + newToken,
+            },
+            withCredentials: true
+        });
+        if (response.status === 200) {
+            toast(response.data.message, { type: true });
+            return response?.data?.data;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast.error(error.message, false);
+    }
+}
+
+
+export async function getUsers(setData) {
+    try {
+        const newToken = await checkingTokenExpiry();
+
+        const response = await axios.get(params?.productionBaseAuthURL + '/users', {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + newToken,
+            },
+            withCredentials: true,
+        });
+        if(response.status === 200) {
+            setData(response?.data?.data?.users);
+            return response?.data?.data?.users;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        console.log("Error in getUsers : ", error);
+        toast.error(error.message, false);
+    }
 }

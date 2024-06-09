@@ -48,11 +48,8 @@ export function CellAction({ data }) {
               variant="ghost"
               size="icon"
               className="hover:bg-secondary"
-              
-                onClick={() => navigate(`/example/employees/${data.id}`)}
-              
+                onClick={() => navigate(`/teacher-form/${data._id}`)}
             >
-              
                 <Pencil className="h-4 w-4 text-foreground" />
            
             </Button>

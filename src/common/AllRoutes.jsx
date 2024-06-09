@@ -24,7 +24,7 @@ function AllRoutes() {
             <Route path="/course" element={<Course/>}> 
             </Route> 
             <Route path="*" element={<Dashboard />} />
-            {/* <Route path="/EmployeeForm" element={<EmployeeForm/>}> </Route> */}
+            <Route path="/teacher-form/:id" element={<TeacherForm/>}> </Route>
           </>
         ) : (
           <>
@@ -33,7 +33,7 @@ function AllRoutes() {
           </>
         )}
       </>
-      <Route path='/teacher-from' element={<TeacherForm/>} />
+      {/* <Route path='/teacher-from' element={<TeacherForm/>} /> */}
     </Routes>
   );
 }

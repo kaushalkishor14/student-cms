@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -24,6 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useParams } from "react-router-dom";
+import {userById} from '../../common/apiHandler';
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -66,6 +68,9 @@ const Heading = ({ title, description }) => (
 
 // TeacherForm Component
 export const TeacherForm = ({ initialData }) => {
+  const { id } = useParams();
+
+  console.log("This is teacher-form and id is ", id);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -74,7 +79,7 @@ export const TeacherForm = ({ initialData }) => {
   const toastMessage = initialData
     ? "Teacher updated successfully"
     : "Teacher created successfully";
-  const action = initialData ? "Save Changes" : "Create";
+  const action = initialData ?  "Create": "Save Changes" ;;
 
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
@@ -133,6 +138,20 @@ export const TeacherForm = ({ initialData }) => {
     deleteTeacher(initialData?.id);
   };
 
+
+  useEffect(() => {
+    if (id) {
+      userById(id).then((data) => {
+        console.log(data);
+        form.setValue("firstName", data.name);
+        form.setValue("email",data.email);
+        form.setValue("batch", data.batchId);
+        form.setValue("course", data.courseId);
+      });
+    }
+  }
+  , []);
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -165,7 +184,7 @@ export const TeacherForm = ({ initialData }) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="First Name"
+                      placeholder="Name"
                       disabled={loading}
                     />
                   </FormControl>
@@ -181,7 +200,7 @@ export const TeacherForm = ({ initialData }) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Last Name"
+                      placeholder="Email"
                       disabled={loading}
                     />
                   </FormControl>
@@ -197,21 +216,21 @@ export const TeacherForm = ({ initialData }) => {
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
-                    value={field.value}
+                    value={field.value.batchName}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue
-                          defaultValue={field.value}
+                          defaultValue={field.value.batchName}
                           placeholder="Batch"
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="2021">2021</SelectItem>
-                      <SelectItem value="2022">2022</SelectItem>
-                      <SelectItem value="2023">2023</SelectItem>
+                      <SelectItem value="1">Batch 1</SelectItem>
+                      <SelectItem value="2">Batch 2</SelectItem>
+                      <SelectItem value="3">Batch 3</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
