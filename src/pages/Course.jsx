@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   CardHeader,
@@ -19,7 +19,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { data } from "autoprefixer";
+import { userById, CourseNames } from "../common/apiHandler";
 const invoices = [
   {
     title: "Dsa",
@@ -42,6 +43,18 @@ const course = () => {
   const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
   const [newCourse, setNewCourse] = useState("");
   // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  //get data 
+  const[addCourses, setAddCourse] = useState([]);
+
+  useEffect(()=>{
+    CourseNames(setAddCourse,setLoading).then((data)=>{
+      setAddCourse(data)
+    })
+  
+  },[])
+
 
   const addCourse = () => {
     if (newCourse.trim()) {
@@ -80,15 +93,20 @@ const course = () => {
             <TableRow>
               <TableHead className="w-[100px]">Tiles</TableHead>
               <TableHead>Tags</TableHead>
-              <TableHead>Batches</TableHead>
+              <TableHead>Description</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.title}>
-                <TableCell className="font-medium">{invoice.title}</TableCell>
-                <TableCell>{invoice.tags}</TableCell>
-                <TableCell>{invoice.Batches}</TableCell>
+            {addCourses.map((data,index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{data.title}</TableCell>
+                {
+                  data.tags.map((tag ,index)=>
+                   <TableCell key={index}>{tag}</TableCell>
+                )
+                }
+                {/* <TableCell>{data.tags}</TableCell> */}
+                <TableCell>{data.description}</TableCell>
               </TableRow>
             ))}
           </TableBody>
