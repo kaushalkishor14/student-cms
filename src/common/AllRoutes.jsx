@@ -19,12 +19,12 @@ function AllRoutes() {
           <>
             <Route path="/" element={<Dashboard />} />
             <Route path="/student" element={<StudentPage />} />
-            <Route path="/teacher" element={<Teacher/>}/>
-            <Route path="/course/:name" element={<Subject/>}/>
-            <Route path="/course" element={<Course/>}> 
-            </Route> 
+            <Route path="/teacher" element={<Teacher/>} />
+            <Route path="/course/:name" element={<Subject/>} />
+            <Route path="/course" element={<Course/>} /> 
             <Route path="*" element={<Dashboard />} />
-            <Route path="/teacher-form/:id" element={<TeacherForm/>}> </Route>
+            <Route path="/teacher-form" element={<TeacherForm/>} />
+            <Route path="/teacher-form/:id" element={<TeacherForm/>} /> 
           </>
         ) : (
           <>

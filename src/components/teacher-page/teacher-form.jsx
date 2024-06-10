@@ -142,7 +142,6 @@ export const TeacherForm = ({ initialData }) => {
   useEffect(() => {
     if (id) {
       userById(id).then((data) => {
-        console.log(data);
         form.setValue("firstName", data.name);
         form.setValue("email",data.email);
         form.setValue("batch", data.batchId);
