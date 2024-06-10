@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   CardHeader,
@@ -7,18 +7,46 @@ import {
   CardDescription,
   Card,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input"
-// import { Modal } from '@shadcn/ui/modal';
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const invoices = [
+  {
+    title: "Dsa",
+    tags: "C++",
+    Batches: "8",
+  },
+  {
+    title: "Pythan",
+    tags: "pythan",
+    Batches: "$150.00",
+  },
+  {
+    title: "Web-D",
+    tags: "html, css , javascripts",
+    Batches: "$350.00",
+  },
+];
 
 const course = () => {
-  const [courses, setCourses] = useState(['DSA', 'Web Development', 'Python']);
-  const [newCourse, setNewCourse] = useState('');
+  const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
+  const [newCourse, setNewCourse] = useState("");
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const addCourse = () => {
     if (newCourse.trim()) {
       setCourses([...courses, newCourse]);
-      setNewCourse('');
+      setNewCourse("");
       setIsModalOpen(false);
     }
   };
@@ -26,34 +54,47 @@ const course = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Course Details</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
         {courses.map((course, index) => (
-          <Card key={index} className="shadow-lg">
+          <Card key={index} className="">
             <CardHeader>
               <CardTitle>{course}</CardTitle>
             </CardHeader>
             <CardContent>
               <p>Details about the {course} course.</p>
+              <p>kaushal kishor</p>
             </CardContent>
           </Card>
         ))}
       </div>
-      <div className="mt-4">
+     
+      <div className="mt-4 mb-2">
         <Button onClick={() => setIsModalOpen(true)}>Add Course</Button>
       </div>
-
-      {/* <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}> */}
-        <div className="p-4">
-          <h2 className="text-xl font-bold mb-2">Add New Course</h2>
-          <Input
-            placeholder="Course Name"
-            value={newCourse}
-            onChange={(e) => setNewCourse(e.target.value)}
-            className="mb-4"
-          />
-          <Button onClick={addCourse}>Add</Button>
-        </div>
-      {/* </Modal> */}
+      <Separator />
+    
+      <div className="p-4 ">
+        <h2 className="text-xl font-bold mb-2">Number of Courses</h2>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Tiles</TableHead>
+              <TableHead>Tags</TableHead>
+              <TableHead>Batches</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {invoices.map((invoice) => (
+              <TableRow key={invoice.title}>
+                <TableCell className="font-medium">{invoice.title}</TableCell>
+                <TableCell>{invoice.tags}</TableCell>
+                <TableCell>{invoice.Batches}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+   
     </div>
   );
 };
