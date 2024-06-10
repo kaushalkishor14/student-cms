@@ -54,10 +54,11 @@ export default function loginPage() {
             <FormField
               name="email"
               control={form.control}
+              
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                  <Input {...field} name="email" onChange={handelInput}/>
+                  <Input {...field} placeholder={"admin123@gmail.com"} name="email" onChange={handelInput}/>
                   {/* <p className='text-muted text-gray-600 text-sm'>We will send you a verification code</p> */}
                   <FormMessage />
                 </FormItem>
@@ -70,7 +71,7 @@ export default function loginPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" {...field } name="password" onChange={handelInput} />
+                  <Input placeholder={"Admin@123"} type="password" {...field } name="password" onChange={handelInput} />
                   <FormMessage />
                 </FormItem>
               )}
