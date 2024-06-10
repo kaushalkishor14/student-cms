@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useParams } from "react-router-dom";
-import {userById, CourseNames} from '../../common/apiHandler';
+import { userById, CourseNames } from "../../common/apiHandler";
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -35,7 +35,15 @@ export const teacherFormSchema = z.object({
 });
 
 // AlertModal Component
-const AlertModal = ({ title, description, name, isOpen, onClose, onConfirm, loading }) => {
+const AlertModal = ({
+  title,
+  description,
+  name,
+  isOpen,
+  onClose,
+  onConfirm,
+  loading,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -78,7 +86,7 @@ export const TeacherForm = ({ initialData }) => {
   const toastMessage = initialData
     ? "Teacher updated successfully"
     : "Teacher created successfully";
-  const action = initialData ?  "Create": "Save Changes" ;;
+  const action = initialData ? "Create" : "Save Changes";
 
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
@@ -143,22 +151,19 @@ export const TeacherForm = ({ initialData }) => {
   useEffect(() => {
     CourseNames(setCourseNames, setLoading).then((data) => {
       setCourseNames(data);
-    }
-    );
+    });
   }, []);
-
 
   useEffect(() => {
     if (id) {
       userById(id).then((data) => {
         form.setValue("firstName", data.name);
-        form.setValue("email",data.email);
+        form.setValue("email", data.email);
         form.setValue("batch", data.batchId);
         form.setValue("course", data.courseId);
       });
     }
-  }
-  , []);
+  }, []);
 
   // console.log("Course Names are ", coursenaam)
 
@@ -192,11 +197,7 @@ export const TeacherForm = ({ initialData }) => {
                 <FormItem>
                   <FormLabel> Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Name"
-                      disabled={loading}
-                    />
+                    <Input {...field} placeholder="Name" disabled={loading} />
                   </FormControl>
                 </FormItem>
               )}
@@ -208,12 +209,38 @@ export const TeacherForm = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Email"
-                      disabled={loading}
-                    />
+                    <Input {...field} placeholder="Email" disabled={loading} />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="course"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Course</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Course"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {coursenaam?.map((data,index) => 
+                        <SelectItem key={index} value="math">{data?.title}</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -247,36 +274,7 @@ export const TeacherForm = ({ initialData }) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="course"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Course</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Course"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="math">Math</SelectItem>
-                      <SelectItem value="science">Science</SelectItem>
-                      <SelectItem value="history">History</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+           
           </div>
           <div className="space-x-4">
             <Button disabled={loading} className="ml-auto" type="submit">
