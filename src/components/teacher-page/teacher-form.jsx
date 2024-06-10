@@ -4,7 +4,6 @@ import React, { useState , useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-// import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -25,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useParams } from "react-router-dom";
-import {userById} from '../../common/apiHandler';
+import {userById, CourseNames} from '../../common/apiHandler';
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -138,6 +137,16 @@ export const TeacherForm = ({ initialData }) => {
     deleteTeacher(initialData?.id);
   };
 
+  // const [loading, setLoading] = useState(false);
+  const [coursenaam, setCourseNames] = useState([]);
+
+  useEffect(() => {
+    CourseNames(setCourseNames, setLoading).then((data) => {
+      setCourseNames(data);
+    }
+    );
+  }, []);
+
 
   useEffect(() => {
     if (id) {
@@ -150,6 +159,8 @@ export const TeacherForm = ({ initialData }) => {
     }
   }
   , []);
+
+  console.log("Course Names are ", coursenaam)
 
   return (
     <>

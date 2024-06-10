@@ -206,11 +206,8 @@ export async function CourseNames(setCourseName, setLoading) {
         if (response.status === 200) {
             notify(response.data.message, { type: true });
             setCourseName(response.data.data);
-            console.log(response.data.message)
-            // console.log("Course Name : ", response.data.data);
-            // navigate('/course');
             setLoading(false);
-            return;
+            return response.data.data;
         }
         setLoading(false);
         throw new Error(response.data.message);
@@ -391,3 +388,5 @@ export async function getUsers(setData) {
         toast.error(error.message, false);
     }
 }
+
+
