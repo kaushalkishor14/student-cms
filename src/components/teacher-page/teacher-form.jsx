@@ -24,7 +24,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useParams } from "react-router-dom";
+<<<<<<< HEAD
 import { userById, CourseNames } from "../../common/apiHandler";
+=======
+import { userById, CourseNames } from '../../common/apiHandler';
+>>>>>>> 71a1de5 (done)
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -86,7 +90,11 @@ export const TeacherForm = ({ initialData }) => {
   const toastMessage = initialData
     ? "Teacher updated successfully"
     : "Teacher created successfully";
+<<<<<<< HEAD
   const action = initialData ? "Create" : "Save Changes";
+=======
+  const action = initialData ? "Create" : "Save Changes";;
+>>>>>>> 71a1de5 (done)
 
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
@@ -163,7 +171,12 @@ export const TeacherForm = ({ initialData }) => {
         form.setValue("course", data.courseId);
       });
     }
+<<<<<<< HEAD
   }, []);
+=======
+  }
+    , []);
+>>>>>>> 71a1de5 (done)
 
   // console.log("Course Names are ", coursenaam)
 
@@ -214,6 +227,7 @@ export const TeacherForm = ({ initialData }) => {
                 </FormItem>
               )}
             />
+<<<<<<< HEAD
              <FormField
               control={form.control}
               name="course"
@@ -275,6 +289,73 @@ export const TeacherForm = ({ initialData }) => {
               )}
             />
            
+=======
+
+
+            <div>
+
+              <FormField
+                control={form.control}
+                name="batch"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Batch</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value.batchName}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value.batchName}
+                            placeholder="Batch"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="1">Batch 1</SelectItem>
+                        <SelectItem value="2">Batch 2</SelectItem>
+                        <SelectItem value="3">Batch 3</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="course"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Course</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Course"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="math">Math</SelectItem>
+                        <SelectItem value="science">Science</SelectItem>
+                        <SelectItem value="history">History</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+>>>>>>> 71a1de5 (done)
           </div>
           <div className="space-x-4">
             <Button disabled={loading} className="ml-auto" type="submit">
@@ -301,7 +382,7 @@ export const TeacherForm = ({ initialData }) => {
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
-        // loading={deleteTeacherIsLoading}
+      // loading={deleteTeacherIsLoading}
       />
     </>
   );
