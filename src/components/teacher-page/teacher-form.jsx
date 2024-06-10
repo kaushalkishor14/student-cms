@@ -139,6 +139,10 @@ export const TeacherForm = ({ initialData }) => {
 
   // const [loading, setLoading] = useState(false);
   const [coursenaam, setCourseNames] = useState([]);
+  const [selectCourse, setSelectCourse] = useState(null);
+
+
+
 
   useEffect(() => {
     CourseNames(setCourseNames, setLoading).then((data) => {
@@ -160,7 +164,7 @@ export const TeacherForm = ({ initialData }) => {
   }
     , []);
 
-  // console.log("Course Names are ", coursenaam)
+  console.log("Course Names selected ", selectCourse)
 
   return (
     <>
@@ -218,7 +222,44 @@ export const TeacherForm = ({ initialData }) => {
               )}
             />
 
-            <div>
+            <div className="flex flex-col flex-wrap">
+              <FormField
+                control={form.control}
+                name="course"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Course</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Course"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {
+                          coursenaam?.map((course) => 
+                            <SelectItem 
+                              key={course.id} 
+                              onChange={(e)=>setSelectCourse(e.target.value)} 
+                              value={course.id}>{course.title}
+                            </SelectItem>
+                          )
+                        }                        
+                      </SelectContent>
+                    
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}
@@ -250,36 +291,7 @@ export const TeacherForm = ({ initialData }) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="course"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Course</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field.value}
-                            placeholder="Course"
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="math">Math</SelectItem>
-                        <SelectItem value="science">Science</SelectItem>
-                        <SelectItem value="history">History</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
             </div>
           </div>
           <div className="space-x-4">
