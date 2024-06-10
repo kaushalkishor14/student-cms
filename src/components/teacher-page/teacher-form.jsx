@@ -160,7 +160,7 @@ export const TeacherForm = ({ initialData }) => {
   }
   , []);
 
-  console.log("Course Names are ", coursenaam)
+  // console.log("Course Names are ", coursenaam)
 
   return (
     <>
