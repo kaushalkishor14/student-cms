@@ -29,7 +29,6 @@ export const AlertModal = ({
   onConfirm,
   loading,
 }) => {
-  console.log();
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);

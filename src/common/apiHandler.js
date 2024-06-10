@@ -107,7 +107,6 @@ export async function LoginUser(userDetail, setLoading, navigate, login, setAcce
 
 export async function RegisterUser(userDetail, setLoading, navigate, selectedFile) {
     setLoading(true);
-    console.log("image is here ", selectedFile);
     try {
         if (!userDetail.Name || !userDetail.email || !userDetail.password || !selectedFile) {
             if (!userDetail.Name) {
@@ -138,7 +137,6 @@ export async function RegisterUser(userDetail, setLoading, navigate, selectedFil
                 "Authorization": "Bearer " + JSON.parse(localStorage.getItem('accessToken')),
             }
         });
-        console.log("User register response : ", response);
         if (response.status === 200) {
             notify(response.data.message, { type: true });
             navigate('/login');

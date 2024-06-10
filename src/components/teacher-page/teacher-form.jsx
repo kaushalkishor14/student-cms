@@ -69,7 +69,6 @@ const Heading = ({ title, description }) => (
 export const TeacherForm = ({ initialData }) => {
   const { id } = useParams();
 
-  console.log("This is teacher-form and id is ", id);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -140,8 +139,7 @@ export const TeacherForm = ({ initialData }) => {
   // const [loading, setLoading] = useState(false);
   const [coursenaam, setCourseNames] = useState([]);
   const [selectCourse, setSelectCourse] = useState(null);
-
-
+  const [selectBatch, setSelectBatch] = useState(null);
 
 
   useEffect(() => {
@@ -150,7 +148,6 @@ export const TeacherForm = ({ initialData }) => {
     }
     );
   }, []);
-
 
   useEffect(() => {
     if (id) {
@@ -161,10 +158,8 @@ export const TeacherForm = ({ initialData }) => {
         form.setValue("course", data.courseId);
       });
     }
-  }
-    , []);
+  }, []);
 
-  console.log("Course Names selected ", selectCourse)
 
   return (
     <>
@@ -194,7 +189,7 @@ export const TeacherForm = ({ initialData }) => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel> Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -230,8 +225,12 @@ export const TeacherForm = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Course</FormLabel>
                     <Select
+                      {...field}
                       disabled={loading}
-                      onValueChange={field.onChange}
+                      onValueChange={(e) => {
+                        field.onChange(e);
+                        setSelectCourse(e);
+                      }}
                       value={field.value}
                       defaultValue={field.value}
                     >
@@ -243,18 +242,17 @@ export const TeacherForm = ({ initialData }) => {
                           />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent >
                         {
-                          coursenaam?.map((course) => 
-                            <SelectItem 
-                              key={course.id} 
-                              onChange={(e)=>setSelectCourse(e.target.value)} 
-                              value={course.id}>{course.title}
+                          coursenaam?.map((course) =>
+                            <SelectItem
+                              key={course._id}
+                              value={course._id}>{course.title}
                             </SelectItem>
                           )
-                        }                        
+                        }
                       </SelectContent>
-                    
+
                     </Select>
                     <FormMessage />
                   </FormItem>
@@ -269,7 +267,10 @@ export const TeacherForm = ({ initialData }) => {
                     <FormLabel>Batch</FormLabel>
                     <Select
                       disabled={loading}
-                      onValueChange={field.onChange}
+                      onValueChange={(e)=>{
+                        field.onChange(e);
+                        setSelectBatch(e);
+                      }}
                       value={field.value.batchName}
                       defaultValue={field.value}
                     >
@@ -282,9 +283,19 @@ export const TeacherForm = ({ initialData }) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="1">Batch 1</SelectItem>
-                        <SelectItem value="2">Batch 2</SelectItem>
-                        <SelectItem value="3">Batch 3</SelectItem>
+                        {
+                         selectCourse? 
+                          coursenaam.map((course) =>
+                            course.batches.map((batch) =>
+                              <SelectItem
+                                key={batch._id}
+                                value={batch._id}>{batch.batchName}
+                              </SelectItem>
+                            )
+                          ) 
+                          :
+                          <SelectItem> no Options</SelectItem>
+                        }
                       </SelectContent>
                     </Select>
                     <FormMessage />
