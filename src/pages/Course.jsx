@@ -98,9 +98,13 @@ const course = () => {
               <TableRow key={index}>
                 <TableCell className="font-medium">{data.title}</TableCell>
                 
+                <TableCell key={index} className="flex gap-3"> 
                 {data.tags.map((tag, index) => (
-                  <TableCell key={index}>{tag}</TableCell>
+                  
+                  <p key={index}> {tag} </p>
                 ))}
+                </TableCell>
+
 
                 <TableCell>{data.description}</TableCell>
               </TableRow>
