@@ -27,15 +27,14 @@ export function CellAction({ data }) {
   const navigate = useNavigate();
   
   // Function to handle deletion of a record
-  // const DeleteRecord = async (_id) => {
-  //   try {
-  //     const response = await axios.delete(`/api/employees/${_id}`);
-  //     console.log('Record deleted successfully', response.data);
-  //     // Optionally, add logic to update the UI after deletion
-  //   } catch (error) {
-  //     console.error('Error deleting record:', error);
-  //   }
-  // };
+  const DeleteRecord = async (_id) => {
+    try {
+        console.log("this is the id we get ", _id);
+      // Optionally, add logic to update the UI after deletion
+    } catch (error) {
+      console.error('Error deleting record:', error);
+    }
+  };
    
 
   return (
@@ -70,9 +69,6 @@ export function CellAction({ data }) {
                   variant="ghost"
                   size="icon"
                   className="hover:bg-secondary"
-                  onClick={() => {
-                    // setAlertModalOpen(true);
-                  }}
                 >
                   <Trash2 className="h-4 w-4 text-foreground" />
                 </Button>
