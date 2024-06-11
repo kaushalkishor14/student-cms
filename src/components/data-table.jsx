@@ -27,7 +27,7 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function DataTable({ columns, data }) {
+export default function DataTable({ columns, data , tableType }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -116,7 +116,7 @@ export default function DataTable({ columns, data }) {
               table.getRowModel().rows.map((row) => {
                 // Check the role of the row
                 const roleCell = row.getAllCells().find(cell => cell.column.id === 'role');
-                if (roleCell?.getValue() !== 'student') {
+                if (roleCell?.getValue() !== tableType) {
                   return null; // Skip rendering this row if the role is not Student
                 }
 

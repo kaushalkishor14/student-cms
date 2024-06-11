@@ -1,6 +1,9 @@
 import { toast } from "react-toastify";
 import params from './params.json';
 import axios from 'axios';
+import * as generator from 'generate-password';
+import course from "@/pages/Course";
+import imgageFromPublic from "@/assets/user.png";
 
 // function to notify user
 const notify = (message, { type }) => {
@@ -80,13 +83,22 @@ export async function LoginUser(userDetail, setLoading, navigate, login, setAcce
         });
 
         if (response.status === 200) {
-            if (response?.data?.data) {
+
+            if (response?.data?.data && response?.data?.data.user?.role === ('admin' || 'teacher')) {
+                console.log("You are authorized to login");
                 login(response.data.data);
                 setAccessToken(response?.data?.data?.accessToken);
                 setRefreshToken(response.data?.data?.refreshToken);
                 notify(response.data.message, { type: true });
                 setLoading(false);
                 navigate('/');
+                return;
+            }
+
+            if(response?.data?.data && response?.data?.data.user?.role === 'student') {
+                notify("You are not authorized to login", { type: false });
+                console.log("You are not authorized to login");
+                setLoading(false);
                 return;
             }
             throw new Error(response.data.message);
@@ -407,5 +419,55 @@ export async function deleteUserById(id){
     } catch (error) {
         console.log("Error in deleteUserById : ", error.message);
         toast.error(error?.response?.data?.message || error.message, false);
+    }
+}
+
+
+export async function addNewTeacher(teacherDetail) {
+    try {
+
+        password = generator.generate({
+            length: 8,
+            numbers: true,
+            symbols: true,
+            uppercase: true,
+            lowercase: true,
+            excludeSimilarCharacters: true,
+          });
+        
+        const teacherInfo = {
+            name: teacherDetail.firstName,
+            email: teacherDetail.email,
+            password: password,
+            role: 'teacher',
+            file: imgageFromPublic,
+            courseId: teacherDetail.course,
+            batchId: teacherDetail.batch
+        }
+
+
+
+        console.log("Teacher Info :  ===========   ", teacherInfo);
+
+
+        // let token = await checkingTokenExpiry();
+        // const response = await axios.post(`${params?.productionBaseAuthURL}/addTeacher`, teacherDetail, {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': 'Bearer ' + token,
+        //     },
+        //     withCredentials: true,
+        // });
+        // if (response.status === 200) {
+        //     console.log("Teacher added successfully");
+        //     notify(response.data.message, { type: true });
+        //     // setNewTeacher(response.data.data);
+        //     return response.data.data;
+        // }
+        // throw new Error(response.data.message);
+        throw new Error("Error in addNewTeacher");
+    } catch (error) {
+        console.log("Error in addNewTeacher err :");
+        // toast.error(error.message, false);
     }
 }

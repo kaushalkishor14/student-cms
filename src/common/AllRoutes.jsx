@@ -23,7 +23,8 @@ function AllRoutes() {
             <Route path="/course/:name" element={<Subject/>} />
             <Route path="/course" element={<Course/>} /> 
             <Route path="*" element={<Dashboard />} />
-            <Route path="/teacher-form?/:id" element={<TeacherForm/>}> </Route>
+            <Route path="/teacher-form/create" element={<TeacherForm />}> </Route>
+            <Route path="/teacher-form?/:id" element={<TeacherForm initialData={1}/>}> </Route>
           </>
         ) : (
           <>

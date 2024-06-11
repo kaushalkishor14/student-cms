@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useParams } from "react-router-dom";
-import { userById, CourseNames } from '../../common/apiHandler';
+import { userById, CourseNames , addNewTeacher } from '../../common/apiHandler';
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -68,7 +68,11 @@ const Heading = ({ title, description }) => (
 // TeacherForm Component
 export const TeacherForm = ({ initialData }) => {
   const { id } = useParams();
-
+  const [coursenaam, setCourseNames] = useState([]);
+  const [selectCourse, setSelectCourse] = useState(null);
+  const [selectBatch, setSelectBatch] = useState(null);
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -77,7 +81,7 @@ export const TeacherForm = ({ initialData }) => {
   const toastMessage = initialData
     ? "Teacher updated successfully"
     : "Teacher created successfully";
-  const action = initialData ? "Create" : "Save Changes";;
+  const action = initialData ?  "Save Changes" : "Create";
 
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
@@ -91,10 +95,9 @@ export const TeacherForm = ({ initialData }) => {
 
   const createTeacher = async (data) => {
     try {
-      // Replace with your create teacher API call
-      await api.teacher.create(data);
-      toast.success(toastMessage);
+      // console.log("data from the form create teacher ", data);
       // Redirect or update the state to show the list of teachers
+      await addNewTeacher(data);
     } catch (err) {
       toast.error(err.message);
     }
@@ -123,6 +126,7 @@ export const TeacherForm = ({ initialData }) => {
   };
 
   const onSubmit = (values) => {
+    console.log('submit button clicked');
     setLoading(true);
     if (initialData) {
       updateTeacher({ ...values, id: initialData.id });
@@ -137,9 +141,7 @@ export const TeacherForm = ({ initialData }) => {
   };
 
   // const [loading, setLoading] = useState(false);
-  const [coursenaam, setCourseNames] = useState([]);
-  const [selectCourse, setSelectCourse] = useState(null);
-  const [selectBatch, setSelectBatch] = useState(null);
+ 
 
 
   useEffect(() => {
@@ -150,12 +152,12 @@ export const TeacherForm = ({ initialData }) => {
   }, []);
 
   useEffect(() => {
-    if (id) {
+    if (isNaN(Number(id)) === false){
       userById(id).then((data) => {
-        form.setValue("firstName", data.name);
-        form.setValue("email", data.email);
-        form.setValue("batch", data.batchId);
-        form.setValue("course", data.courseId);
+        form.setValue("firstName", data?.name);
+        form.setValue("email", data?.email);
+        form.setValue("batch", data?.batchId);
+        form.setValue("course", data?.courseId);
       });
     }
   }, []);
@@ -231,13 +233,13 @@ export const TeacherForm = ({ initialData }) => {
                         field.onChange(e);
                         setSelectCourse(e);
                       }}
-                      value={field.value}
-                      defaultValue={field.value}
+                      value={field?.value}
+                      defaultValue={field?.value}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value}
+                            defaultValue={field?.value}
                             placeholder="Course"
                           />
                         </SelectTrigger>
@@ -246,8 +248,8 @@ export const TeacherForm = ({ initialData }) => {
                         {
                           coursenaam?.map((course) =>
                             <SelectItem
-                              key={course._id}
-                              value={course._id}>{course.title}
+                              key={course?._id}
+                              value={course?._id}>{course?.title}
                             </SelectItem>
                           )
                         }
@@ -271,13 +273,13 @@ export const TeacherForm = ({ initialData }) => {
                         field.onChange(e);
                         setSelectBatch(e);
                       }}
-                      value={field.value.batchName}
-                      defaultValue={field.value}
+                      value={field?.value?.batchName}
+                      defaultValue={field?.value}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
-                            defaultValue={field.value.batchName}
+                            defaultValue={field?.value?.batchName}
                             placeholder="Batch"
                           />
                         </SelectTrigger>
@@ -288,8 +290,8 @@ export const TeacherForm = ({ initialData }) => {
                           coursenaam.map((course) =>
                             course.batches.map((batch) =>
                               <SelectItem
-                                key={batch._id}
-                                value={batch._id}>{batch.batchName}
+                                key={batch?._id}
+                                value={batch?._id}>{batch?.batchName}
                               </SelectItem>
                             )
                           ) 
@@ -306,7 +308,12 @@ export const TeacherForm = ({ initialData }) => {
             </div>
           </div>
           <div className="space-x-4">
-            <Button disabled={loading} className="ml-auto" type="submit">
+            <Button 
+              disabled={loading} 
+              className="ml-auto" 
+              type="submit"
+              onClick={()=>onSubmit(form.getValues())}
+            >
               {action}
             </Button>
             <Button

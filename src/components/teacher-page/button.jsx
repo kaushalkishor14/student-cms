@@ -21,7 +21,7 @@ export const EmployeeClient = ({ data }) => {
         <h1 className="font-bold  text-3xl">Teacher Deatils</h1>
         
         <Button
-         onClick={() => navigate('/teacher-from')}
+         onClick={() => navigate('/teacher-form/create')}
               
         >
           <Plus className="mr-2 h-4 w-4" /> Add New
@@ -29,7 +29,7 @@ export const EmployeeClient = ({ data }) => {
       </div>
       <Separator />
       <div>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data} tableType={'teacher'} />
       </div>
     </>
   );
