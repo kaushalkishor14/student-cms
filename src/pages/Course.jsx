@@ -45,16 +45,14 @@ const course = () => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  //get data 
-  const[addCourses, setAddCourse] = useState([]);
+  //get data
+  const [addCourses, setAddCourse] = useState([]);
 
-  useEffect(()=>{
-    CourseNames(setAddCourse,setLoading).then((data)=>{
-      setAddCourse(data)
-    })
-  
-  },[])
-
+  useEffect(() => {
+    CourseNames(setAddCourse, setLoading).then((data) => {
+      setAddCourse(data);
+    });
+  }, []);
 
   const addCourse = () => {
     if (newCourse.trim()) {
@@ -75,17 +73,16 @@ const course = () => {
             </CardHeader>
             <CardContent>
               <p>Details about the {course} course.</p>
-              <p>kaushal kishor</p>
             </CardContent>
           </Card>
         ))}
       </div>
-     
+
       <div className="mt-4 mb-2">
         <Button onClick={() => setIsModalOpen(true)}>Add Course</Button>
       </div>
       <Separator />
-    
+
       <div className="p-4 ">
         <h2 className="text-xl font-bold mb-2">Number of Courses</h2>
         <Table>
@@ -97,22 +94,20 @@ const course = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {addCourses.map((data,index) => (
+            {addCourses.map((data, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{data.title}</TableCell>
-                {
-                  data.tags.map((tag ,index)=>
-                   <TableCell key={index}>{tag}</TableCell>
-                )
-                }
-                {/* <TableCell>{data.tags}</TableCell> */}
+                
+                {data.tags.map((tag, index) => (
+                  <TableCell key={index}>{tag}</TableCell>
+                ))}
+
                 <TableCell>{data.description}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-   
     </div>
   );
 };
