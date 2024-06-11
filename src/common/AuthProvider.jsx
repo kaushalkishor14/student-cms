@@ -18,6 +18,9 @@ export default function AuthProvider({children}) {
         return refreshToken ? JSON.parse(refreshToken) : null;
     })
 
+    const [deleteUserData , setDeleteUserData] = useState(false);
+
+
     const [loading, setLoading] = useState(false);
 
     function login(user) {
@@ -49,6 +52,8 @@ export default function AuthProvider({children}) {
         return;
     }
 
+
+
     return (
         <context.Provider
             value={{
@@ -61,7 +66,9 @@ export default function AuthProvider({children}) {
                 accessToken,
                 setAccessTokenFunction,
                 refreshToken,
-                setRefreshTokenfunction
+                setRefreshTokenfunction,
+                deleteUserData,
+                setDeleteUserData
             }}
         >
             {children}

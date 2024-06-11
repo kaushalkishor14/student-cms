@@ -22,18 +22,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {deleteUserById} from '../../common/apiHandler';
+import { useAuth } from "@/common/AuthProvider";
 
 export function CellAction({ data }) {
   const navigate = useNavigate();
+  const { setDeleteUserData,  } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  // const [datas, setData] = useState();
+
+
   
   // Function to handle deletion of a record
   const DeleteRecord = async (_id) => {
-    try {
-        console.log("this is the id we get ", _id);
-      // Optionally, add logic to update the UI after deletion
-    } catch (error) {
-      console.error('Error deleting record:', error);
-    }
+    setDeleteUserData( await deleteUserById(_id) );
   };
    
 

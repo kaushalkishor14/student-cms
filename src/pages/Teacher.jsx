@@ -6,6 +6,7 @@ import params from "../common/params";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { checkingTokenExpiry } from "../common/apiHandler";
+import { useAuth } from "@/common/AuthProvider";
 
 async function getUsers(setData) {
   let token;
@@ -26,11 +27,12 @@ async function getUsers(setData) {
 }
 
 export default function Teacher() {
+  const {deleteUserData} = useAuth();
   
   const [data, setData] = React.useState([]);
   useEffect(() => {
     getUsers(setData);
-  }, []);
+  }, [deleteUserData]);
 
   return (
     <div className="py-15 w-[100%] mr-10">
