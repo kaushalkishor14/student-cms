@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React ,{ useEffect ,useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -30,7 +30,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 import { useParams } from "react-router-dom";
-import { userById, CourseNames , addNewTeacher } from '../../common/apiHandler';
+import { userById, CourseNames, addNewTeacher } from '../../common/apiHandler';
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -87,7 +87,7 @@ export const TeacherForm = ({ initialData }) => {
   const toastMessage = initialData
     ? "Teacher updated successfully"
     : "Teacher created successfully";
-  const action = initialData ?  "Save Changes" : "Create";
+  const action = initialData ? "Save Changes" : "Create";
 
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
@@ -100,28 +100,28 @@ export const TeacherForm = ({ initialData }) => {
   });
 
 
-    // State to store the avatar image URL
-    const [avatarUrl, setAvatarUrl] = useState('https://github.com/shadcn.png');
-    // Reference to the hidden file input element
-    const fileInputRef = useRef(null);
-  
-    // Handle avatar click to trigger file input click
-    const handleAvatarClick = () => {
-      fileInputRef.current.click();
-    };
-  
-    // Handle file input change to update the avatar image
-    const handleFileChange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setAvatarUrl(reader.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-  
+  // State to store the avatar image URL
+  const [avatarUrl, setAvatarUrl] = useState('https://github.com/shadcn.png');
+  // Reference to the hidden file input element
+  const fileInputRef = useRef(null);
+
+  // Handle avatar click to trigger file input click
+  const handleAvatarClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // Handle file input change to update the avatar image
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   const createTeacher = async (data) => {
     try {
@@ -171,7 +171,7 @@ export const TeacherForm = ({ initialData }) => {
   };
 
   // const [loading, setLoading] = useState(false);
- 
+
 
 
   useEffect(() => {
@@ -182,7 +182,7 @@ export const TeacherForm = ({ initialData }) => {
   }, []);
 
   useEffect(() => {
-    if (isNaN(Number(id)) === false){
+    if (isNaN(Number(id)) === false) {
       userById(id).then((data) => {
         form.setValue("firstName", data?.name);
         form.setValue("email", data?.email);
@@ -195,7 +195,7 @@ export const TeacherForm = ({ initialData }) => {
 
   return (
     <>
-    
+
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -210,20 +210,12 @@ export const TeacherForm = ({ initialData }) => {
         )}
       </div>
       <Separator />
-{/* image tag  */}
-      <div>
-      <Avatar onClick={handleAvatarClick} style={{ cursor: 'pointer' }}>
-        <AvatarImage src={avatarUrl} alt="Avatar" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        accept="image/*"
-      />
-    </div>
+      {/* image tag  */}
+
+
+
+
+
 
 
 
@@ -241,7 +233,37 @@ export const TeacherForm = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8"
         >
-          <div className="grid-cols-3 gap-8 md:grid">
+          {/* Image uploader Start  */}
+
+          <div className="grid-cols-4 gap-8 md:grid">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="m-auto">Upload Profile Picture</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center l">
+                      <Avatar
+                        className="w-12 h-12 border-gray-300 border-2 rounded-ful"
+                        onClick={handleAvatarClick} style={{ cursor: 'pointer' }}>
+                        <AvatarImage src={avatarUrl} alt="Avatar" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                      />
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* Image uploader End  */}
             <FormField
               control={form.control}
               name="firstName"
@@ -325,7 +347,7 @@ export const TeacherForm = ({ initialData }) => {
                     <FormLabel>Batch</FormLabel>
                     <Select
                       disabled={loading}
-                      onValueChange={(e)=>{
+                      onValueChange={(e) => {
                         field.onChange(e);
                         setSelectBatch(e);
                       }}
@@ -342,17 +364,17 @@ export const TeacherForm = ({ initialData }) => {
                       </FormControl>
                       <SelectContent>
                         {
-                         selectCourse? 
-                          coursenaam.map((course) =>
-                            course.batches.map((batch) =>
-                              <SelectItem
-                                key={batch?._id}
-                                value={batch?._id}>{batch?.batchName}
-                              </SelectItem>
+                          selectCourse ?
+                            coursenaam.map((course) =>
+                              course.batches.map((batch) =>
+                                <SelectItem
+                                  key={batch?._id}
+                                  value={batch?._id}>{batch?.batchName}
+                                </SelectItem>
+                              )
                             )
-                          ) 
-                          :
-                          <SelectItem> no Options</SelectItem>
+                            :
+                            <SelectItem> no Options</SelectItem>
                         }
                       </SelectContent>
                     </Select>
@@ -364,11 +386,11 @@ export const TeacherForm = ({ initialData }) => {
             </div>
           </div>
           <div className="space-x-4">
-            <Button 
-              disabled={loading} 
-              className="ml-auto" 
+            <Button
+              disabled={loading}
+              className="ml-auto"
               type="submit"
-              onClick={()=>onSubmit(form.getValues())}
+              onClick={() => onSubmit(form.getValues())}
             >
               {action}
             </Button>
