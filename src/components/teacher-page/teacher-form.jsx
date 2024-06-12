@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+
 import {
   Form,
   FormControl,
@@ -31,6 +30,7 @@ import {
 } from "@/components/ui/avatar"
 import { useParams } from "react-router-dom";
 import { userById, CourseNames, addNewTeacher } from '../../common/apiHandler';
+import { useToast } from "../ui/use-toast";
 
 // Define the schema using Zod
 export const teacherFormSchema = z.object({
@@ -39,6 +39,8 @@ export const teacherFormSchema = z.object({
   batch: z.string().nonempty({ message: "Batch is required" }),
   course: z.string().nonempty({ message: "Course is required" }),
 });
+
+// import {toa}
 
 // AlertModal Component
 const AlertModal = ({ title, description, name, isOpen, onClose, onConfirm, loading }) => {
@@ -81,6 +83,8 @@ export const TeacherForm = ({ initialData }) => {
   const [email, setEmail] = useState(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {toast} = useToast();
 
   const title = initialData ? "Edit Teacher" : "Create Teacher";
   const description = initialData ? "Edit a teacher" : "Create a new teacher";
@@ -114,6 +118,7 @@ export const TeacherForm = ({ initialData }) => {
   // Handle file input change to update the avatar image
   const handleFileChange = (event) => {
     setFile( event.target.files[0]);
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -126,9 +131,17 @@ export const TeacherForm = ({ initialData }) => {
 
   const createTeacher = async (data) => {
     try {
-      // console.log("data from the form create teacher ", data);
-      // Redirect or update the state to show the list of teachers
-      await addNewTeacher(data, file);
+      setIsSubmitting(true);
+      await addNewTeacher(data, file, toast);
+      setFile(null);
+      setAvatarUrl('https://github.com/shadcn.png'); // Reset the avatar image
+      form.setValue("course", "");
+      form.setValue("batch", "");
+      form.setValue("firstName", "");
+      form.setValue("lastName", "");
+      form.setValue("email", "");
+      form.reset();
+      setIsSubmitting(false);
     } catch (err) {
       toast.error(err.message);
     }
@@ -372,12 +385,19 @@ export const TeacherForm = ({ initialData }) => {
           </div>
           <div className="space-x-4">
             <Button
-              disabled={loading}
+              disabled={isSubmitting}
               className="ml-auto"
               type="submit"
               onClick={() => onSubmit(form.getValues())}
             >
-              {action}
+              {
+                isSubmitting ? 
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+                : action
+              }
             </Button>
             <Button
               disabled={loading}

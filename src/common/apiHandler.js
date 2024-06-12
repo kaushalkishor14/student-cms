@@ -1,11 +1,8 @@
 import { toast } from "react-toastify";
 import params from './params.json';
 import axios from 'axios';
-import * as generator from 'generate-password';
 import course from "@/pages/Course";
-import imgageFromPublic from "@/assets/user.png";
-import fs from "fs";
-import path from "path";
+import { generatePassword2 } from "@/utlity/passwordGenrator";
 
 // function to notify user
 const notify = (message, { type }) => {
@@ -441,56 +438,40 @@ export async function deleteUserById(id){
 }
 
 
-export async function addNewTeacher(teacherDetail, file) {
+export async function addNewTeacher(teacherDetail, file, toast) {
     try {
     //    / / Define the path to the file
+        const randomNum = Math.floor(Math.random() * 8) + 1;
+        const password = generatePassword2(randomNum);
         
-        
-         
-        password = generator.generate({
-            length: 8,
-            numbers: true,
-            symbols: true,
-            uppercase: true,
-            lowercase: true,
-            excludeSimilarCharacters: true,
-          });
-        
-        const teacherInfo = {
-            name: teacherDetail.firstName,
-            email: teacherDetail.email,
-            password: password,
-            role: 'teacher',
-            file: file,
-            courseId: teacherDetail.course,
-            batchId: teacherDetail.batch
+        const form = new FormData();
+        form.append('name', teacherDetail.firstName);
+        form.append('email', teacherDetail.email);
+        form.append('password',"SureTrust@123"+password);
+        form.append('role', 'teacher');
+        form.append('file', file);
+        form.append('courseId', teacherDetail.course);
+        form.append('batchId', teacherDetail.batch);
+
+        let token = await checkingTokenExpiry();
+        const response = await axios.post(`${params?.productionBaseAuthURL}/signup`, form, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' + token,
+            },
+            withCredentials: true,
+        });
+        if (response.status === 200) {
+            console.log("Teacher added successfully");
+            toast({title : response.data.message});
+            // setNewTeacher(response.data.data);
+            return response.data.data;
         }
-
-
-
-        console.log("Teacher Info :  ===========   ", teacherInfo);
-        // const form = new FormData();
-
-
-        // let token = await checkingTokenExpiry();
-        // const response = await axios.post(`${params?.productionBaseAuthURL}/addTeacher`, teacherDetail, {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'Bearer ' + token,
-        //     },
-        //     withCredentials: true,
-        // });
-        // if (response.status === 200) {
-        //     console.log("Teacher added successfully");
-        //     notify(response.data.message, { type: true });
-        //     // setNewTeacher(response.data.data);
-        //     return response.data.data;
-        // }
-        // throw new Error(response.data.message);
-        throw new Error("Error in addNewTeacher");
+        throw new Error(response.data.message);
     } catch (error) {
         console.log("Error in addNewTeacher err :", error)  ;
-        
-        // toast.error(error.message, false);
+        toast({
+            title:error.message || error?.response?.data?.message
+        })
     }
 }
