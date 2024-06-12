@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState, useEffect } from "react";
+import React ,{ useEffect ,useState, useRef} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,6 +23,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+// import  { useState, useRef } from 'react';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import { useParams } from "react-router-dom";
 import { userById, CourseNames , addNewTeacher } from '../../common/apiHandler';
 
@@ -92,6 +98,30 @@ export const TeacherForm = ({ initialData }) => {
       course: "",
     },
   });
+
+
+    // State to store the avatar image URL
+    const [avatarUrl, setAvatarUrl] = useState('https://github.com/shadcn.png');
+    // Reference to the hidden file input element
+    const fileInputRef = useRef(null);
+  
+    // Handle avatar click to trigger file input click
+    const handleAvatarClick = () => {
+      fileInputRef.current.click();
+    };
+  
+    // Handle file input change to update the avatar image
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAvatarUrl(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+  
 
   const createTeacher = async (data) => {
     try {
@@ -165,6 +195,7 @@ export const TeacherForm = ({ initialData }) => {
 
   return (
     <>
+    
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -179,6 +210,31 @@ export const TeacherForm = ({ initialData }) => {
         )}
       </div>
       <Separator />
+{/* image tag  */}
+      <div>
+      <Avatar onClick={handleAvatarClick} style={{ cursor: 'pointer' }}>
+        <AvatarImage src={avatarUrl} alt="Avatar" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+        accept="image/*"
+      />
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 
       <Form {...form}>
         <form

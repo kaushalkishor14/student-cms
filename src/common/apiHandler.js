@@ -4,6 +4,8 @@ import axios from 'axios';
 import * as generator from 'generate-password';
 import course from "@/pages/Course";
 import imgageFromPublic from "@/assets/user.png";
+import fs from "fs";
+import path from "path";
 
 // function to notify user
 const notify = (message, { type }) => {
@@ -441,7 +443,22 @@ export async function deleteUserById(id){
 
 export async function addNewTeacher(teacherDetail) {
     try {
-
+    //    / / Define the path to the file
+        const filePath = path.join(__dirname, imgageFromPublic);
+        
+        // Read the file
+        fs.readFile(filePath, (err, data) => {
+          if (err) {
+            console.error('Error reading the file:', err);
+            return;
+          }
+          console.log(data,"dytat")
+            // Store the file content in a variable
+          const fileContent = data;
+        })
+        
+        
+         
         password = generator.generate({
             length: 8,
             numbers: true,
@@ -483,7 +500,8 @@ export async function addNewTeacher(teacherDetail) {
         // throw new Error(response.data.message);
         throw new Error("Error in addNewTeacher");
     } catch (error) {
-        console.log("Error in addNewTeacher err :");
+        console.log("Error in addNewTeacher err :", error)  ;
+        
         // toast.error(error.message, false);
     }
 }
