@@ -441,21 +441,9 @@ export async function deleteUserById(id){
 }
 
 
-export async function addNewTeacher(teacherDetail) {
+export async function addNewTeacher(teacherDetail, file) {
     try {
     //    / / Define the path to the file
-        const filePath = path.join(__dirname, imgageFromPublic);
-        
-        // Read the file
-        fs.readFile(filePath, (err, data) => {
-          if (err) {
-            console.error('Error reading the file:', err);
-            return;
-          }
-          console.log(data,"dytat")
-            // Store the file content in a variable
-          const fileContent = data;
-        })
         
         
          
@@ -473,7 +461,7 @@ export async function addNewTeacher(teacherDetail) {
             email: teacherDetail.email,
             password: password,
             role: 'teacher',
-            file: imgageFromPublic,
+            file: file,
             courseId: teacherDetail.course,
             batchId: teacherDetail.batch
         }
@@ -481,6 +469,7 @@ export async function addNewTeacher(teacherDetail) {
 
 
         console.log("Teacher Info :  ===========   ", teacherInfo);
+        // const form = new FormData();
 
 
         // let token = await checkingTokenExpiry();

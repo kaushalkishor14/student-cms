@@ -102,6 +102,7 @@ export const TeacherForm = ({ initialData }) => {
 
   // State to store the avatar image URL
   const [avatarUrl, setAvatarUrl] = useState('https://github.com/shadcn.png');
+  const [file, setFile] = useState(null);
   // Reference to the hidden file input element
   const fileInputRef = useRef(null);
 
@@ -112,7 +113,7 @@ export const TeacherForm = ({ initialData }) => {
 
   // Handle file input change to update the avatar image
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    setFile( event.target.files[0]);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -127,7 +128,7 @@ export const TeacherForm = ({ initialData }) => {
     try {
       // console.log("data from the form create teacher ", data);
       // Redirect or update the state to show the list of teachers
-      await addNewTeacher(data);
+      await addNewTeacher(data, file);
     } catch (err) {
       toast.error(err.message);
     }
@@ -212,22 +213,6 @@ export const TeacherForm = ({ initialData }) => {
       <Separator />
       {/* image tag  */}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -250,7 +235,7 @@ export const TeacherForm = ({ initialData }) => {
                         <AvatarImage src={avatarUrl} alt="Avatar" />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
-                      <input
+                      <Input
                         type="file"
                         ref={fileInputRef}
                         style={{ display: 'none' }}
