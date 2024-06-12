@@ -417,7 +417,6 @@ export async function getUsers(setData) {
 export async function deleteUserById(id){
     try {
         let token = await checkingTokenExpiry();
-        console.log("Token in deleteUserById : ", token);
         
         const response = await axios.delete(`${params?.productionBaseAuthURL}/deleteUserById/${id}`, {
             headers: {
