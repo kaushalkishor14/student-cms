@@ -93,7 +93,7 @@ export async function LoginUser(userDetail, setLoading, navigate, login, setAcce
 
         if (response.status === 200) {
 
-            if (response?.data?.data && response?.data?.data.user?.role === ('admin' || 'teacher')) {
+            if ((response?.data?.data.user?.role === 'admin' || response?.data?.data.user?.role === 'teacher')) {
                 console.log("You are authorized to login");
                 login(response.data.data);
                 setAccessToken(response?.data?.data?.accessToken);
