@@ -37,8 +37,8 @@ export default function loginPage() {
   const handelSubmit = async (e) => {
     e.preventDefault();
     
-    LoginUser(form.getValues(), setIsSubmitting, navigate, login, setAccessTokenFunction , setRefreshTokenfunction);
-  }
+    LoginUser(form.getValues(), setIsSubmitting, navigate, login, setAccessTokenFunction , setRefreshTokenfunction,toast);
+    }
 
   return (
     <div className="flex justify-center  items-center min-h-[80vh]">

@@ -58,18 +58,28 @@ export const checkingTokenExpiry = async () => {
     }
 }
 
-export async function LoginUser(userDetail, setLoading, navigate, login, setAccessToken, setRefreshToken) {
+export async function LoginUser(userDetail, setLoading, navigate, login, setAccessToken, setRefreshToken,toast) {
     //userDetail, setLoading
     try {
         setLoading(true);
         const passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         if (!userDetail.email || !passwordRegEx.test(userDetail.password)) {
             if (!userDetail.email) {
-                notify("Please enter the email", false);
+                // notify("Please enter the email", false);
+                toast({
+                    title:"Please enter the email"
+                })
             } else if (!passwordRegEx.test(userDetail.password)) {
-                notify("Password must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters", false);
+                // notify("Password must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters", false);
+                toast({
+                    title:"Password error",
+                    description:"Password must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters"
+                })
             } else {
-                notify("Please fill all the fields", false);
+                // notify("Please fill all the fields", false);
+                toast({
+                    title:"Please fill all the fields"
+                })
             }
             setLoading(false);
             return;
@@ -89,7 +99,10 @@ export async function LoginUser(userDetail, setLoading, navigate, login, setAcce
                 login(response.data.data);
                 setAccessToken(response?.data?.data?.accessToken);
                 setRefreshToken(response.data?.data?.refreshToken);
-                notify(response.data.message, { type: true });
+                // notify(response.data.message, { type: true });
+                toast({
+                    title:response.data.message
+                });
                 setLoading(false);
                 navigate('/');
                 return;
@@ -106,7 +119,10 @@ export async function LoginUser(userDetail, setLoading, navigate, login, setAcce
         setLoading(false);
     } catch (err) {
         const error = err.response?.data?.message || err.message;
-        notify(error, { type: false });
+        // notify(error, { type: false });
+        toast({
+            title:error
+        })
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('user');
