@@ -128,7 +128,6 @@ export const TeacherForm = ({ initialData }) => {
     }
   };
 
-
   const createTeacher = async (data) => {
     try {
       setIsSubmitting(true);
