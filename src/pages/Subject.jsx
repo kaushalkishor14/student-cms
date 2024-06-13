@@ -66,15 +66,18 @@ export default function Subject() {
   }
 
   useEffect(() => {
-    getUsers(setData, selectedBatch)
     getCourseById(name).then((data) => {
       setBatchs(data);
     });
 
-  }, [newBatchs, selectedBatch]);
+  }, [newBatchs]);
 
+  useEffect(() => {
+    if (selectedBatch) {
+      getUsers(setData, selectedBatch);
+    }
+  },[selectedBatch]);
 
-  console.log("This is batch_id", data);
   return (
     <div className="py-15 w-[100%] mr-10">
       <h1 className="font-bold text-3xl mb-4">DSA Course</h1>
@@ -160,7 +163,7 @@ export default function Subject() {
       <section className="py-15 w-[100%] mr-10 mt-6">
         <div className="component">
           <h1 className="font-bold text-3xl mb-4">All student Details</h1>
-          <DataTable columns={columns} data={data} tableType={'student'} />
+          <DataTable columns={columns} data={data?.userId} tableType={'student'} />
         </div>
       </section>
     </div>

@@ -426,7 +426,7 @@ export async function deleteUserById(id){
             withCredentials: true,
         });
         if (response.status === 200) {
-            console.log("User deleted successfully ", response.data?.message);
+            // console.log("User deleted successfully ", response.data?.message);
             return response.data;
         }
         throw new Error(response.data.message);
