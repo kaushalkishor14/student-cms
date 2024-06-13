@@ -19,8 +19,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { data } from "autoprefixer";
+
 import { userById, CourseNames } from "../common/apiHandler";
+import AddCourseModal from "../components/AddCourseModal"; 
 const invoices = [
   {
     title: "Dsa",
@@ -42,7 +43,7 @@ const invoices = [
 const course = () => {
   const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
   const [newCourse, setNewCourse] = useState("");
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   //get data
@@ -59,6 +60,7 @@ const course = () => {
       setCourses([...courses, newCourse]);
       setNewCourse("");
       setIsModalOpen(false);
+      setAddCourse([...addCourses, course]); 
     }
   };
 
@@ -112,6 +114,11 @@ const course = () => {
           </TableBody>
         </Table>
       </div>
+      <AddCourseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={addCourse}
+      />
     </div>
   );
 };
