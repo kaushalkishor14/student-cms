@@ -280,8 +280,8 @@ export async function getBatchById(id) {
         if (!newToken) {
             newToken = JSON.parse(localStorage.getItem('accessToken'));
         }
-        // const response = await axios.get(`${params?.BatchURL}/getBatchById/${id}`, {
-        const response = await axios.get(`${params?.LocalBaseURL}/batch/getBatchById/${id}`, {
+        const response = await axios.get(`${params?.BatchURL}/getBatchById/${id}`, {
+        // const response = await axios.get(`${params?.LocalBaseURL}/batch/getBatchById/${id}`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -426,7 +426,7 @@ export async function deleteUserById(id){
             withCredentials: true,
         });
         if (response.status === 200) {
-            console.log("User deleted successfully ", response.data?.message);
+            // console.log("User deleted successfully ", response.data?.message);
             return response.data;
         }
         throw new Error(response.data.message);
