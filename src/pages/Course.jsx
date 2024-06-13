@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { userById, CourseNames } from "../common/apiHandler";
+import { userById, CourseNames ,AddCourse} from "../common/apiHandler";
 import AddCourseModal from "../components/AddCourseModal"; 
 const invoices = [
   {
@@ -55,9 +55,11 @@ const course = () => {
     });
   }, []);
 
-  const addCourse = () => {
+  const addCourse = async(course) => {
+    
     if (newCourse.trim()) {
       setCourses([...courses, newCourse]);
+      const newCourse = await AddCourse(course); // Call the AddCourse API function
       setNewCourse("");
       setIsModalOpen(false);
       setAddCourse([...addCourses, course]); 
