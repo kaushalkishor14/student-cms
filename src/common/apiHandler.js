@@ -280,8 +280,8 @@ export async function getBatchById(id) {
         if (!newToken) {
             newToken = JSON.parse(localStorage.getItem('accessToken'));
         }
-        // const response = await axios.get(`${params?.BatchURL}/getBatchById/${id}`, {
-        const response = await axios.get(`${params?.LocalBaseURL}/batch/getBatchById/${id}`, {
+        const response = await axios.get(`${params?.BatchURL}/getBatchById/${id}`, {
+        // const response = await axios.get(`${params?.LocalBaseURL}/batch/getBatchById/${id}`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',

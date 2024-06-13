@@ -26,27 +26,14 @@ import { useParams } from "react-router-dom";
 import { PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { checkingTokenExpiry, getCourseById, addNewBatch } from '../common/apiHandler';
+import { checkingTokenExpiry, getCourseById, addNewBatch , getBatchById} from '../common/apiHandler';
 
 import { buttonVariants } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 
-async function getUsers(setData) {
-
-  let newToken = await checkingTokenExpiry();
-  if (!newToken) {
-    newToken = JSON.parse(localStorage.getItem('accessToken'));
-  }
-  const response = await axios.get(params?.productionBaseAuthURL + '/users', {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + newToken,
-    },
-    withCredentials: true,
-  })
-  setData(response.data.data)
+async function getUsers(setData, id) {
+  setData(await getBatchById(id));
 }
-
 
 
 export default function Subject() {
@@ -54,6 +41,7 @@ export default function Subject() {
   const [data, setData] = useState([]);
   const [batchs, setBatchs] = useState([]);
   const [newBatchs, setNewBatchs] = useState(null);
+  const [selectedBatch, setSelectedBatch] = useState(null);
 
   const [newBatch, setBatch] = useState(
     {
@@ -78,21 +66,26 @@ export default function Subject() {
   }
 
   useEffect(() => {
-    getUsers(setData)
+    getUsers(setData, selectedBatch)
     getCourseById(name).then((data) => {
       setBatchs(data);
     });
 
-  }, [newBatchs]);
+  }, [newBatchs, selectedBatch]);
 
 
+  console.log("This is batch_id", data);
   return (
     <div className="py-15 w-[100%] mr-10">
       <h1 className="font-bold text-3xl mb-4">DSA Course</h1>
       <div className="flex justify-between">
         <div className="flex flex-col w-[30%]  space-y-1.5">
           <Label className="text-2xl" htmlFor="framework">Batch</Label>
-          <Select>
+          <Select
+            onValueChange={(value) => {
+              setSelectedBatch(value);}
+            }
+          >
             <SelectTrigger id="framework">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
@@ -100,7 +93,7 @@ export default function Subject() {
               {batchs?.batches?.map((batch) => (
                 <SelectItem
                   key={batch._id}
-                  value={batch.batchName}
+                  value={batch._id}
                 >
                   {batch.batchName}
                 </SelectItem>
