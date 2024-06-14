@@ -290,11 +290,12 @@ export async function getBatchById(id) {
         });
         if (response.status === 200) {
             notify(response.data.message, { type: true });
-            return response.data.data;
+            return response.data.data.userId;
         }
         throw new Error(response.data.message);
     } catch (error) {
         toast.error(error.message, false);
+        return null;
     }
 }
 

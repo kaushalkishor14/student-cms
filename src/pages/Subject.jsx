@@ -15,21 +15,16 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/sheet";
+import { Label } from "@/components/ui/label";
 import DataTable from '../components/data-table';
 import { columns } from "../pages/users/columns";
-import params from '../common/params';
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { PlusCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { checkingTokenExpiry, getCourseById, addNewBatch , getBatchById} from '../common/apiHandler';
-
-import { buttonVariants } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
+import { PlusCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { getCourseById, addNewBatch , getBatchById} from '../common/apiHandler';
 
 async function getUsers(setData, id) {
   setData(await getBatchById(id));
@@ -73,10 +68,11 @@ export default function Subject() {
   }, [newBatchs]);
 
   useEffect(() => {
-    if (selectedBatch) {
+    if(selectedBatch){
       getUsers(setData, selectedBatch);
     }
   },[selectedBatch]);
+
 
   return (
     <div className="py-15 w-[100%] mr-10">
@@ -163,7 +159,10 @@ export default function Subject() {
       <section className="py-15 w-[100%] mr-10 mt-6">
         <div className="component">
           <h1 className="font-bold text-3xl mb-4">All student Details</h1>
-          <DataTable columns={columns} data={data?.userId} tableType={'student'} />
+          {
+            data? 
+            <DataTable columns={columns} data={data} tableType={'student'} /> : <h1>No Data Found</h1>
+          }
         </div>
       </section>
     </div>
