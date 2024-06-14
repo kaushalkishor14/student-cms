@@ -323,7 +323,7 @@ export async function getCourseById(id) {
 }
 
 
-export async function addNewBatch(batchDetail, courseId, setNewBatchs) {
+export async function addNewBatch(batchDetail, courseId, setNewBatchs, toast) {
     try {
         let newToken = await checkingTokenExpiry();
         if (!newToken) {
@@ -344,22 +344,26 @@ export async function addNewBatch(batchDetail, courseId, setNewBatchs) {
         });
 
         if (response.status === 200) {
-            notify(response.data.message, { type: true });
+            toast({
+                title : response.data.message 
+            });
             console.log("Batch added successfully");
             setNewBatchs(response.data.data);
             return;
         }
         if (response.status === 201) {
-            notify(response.data.message, { type: true });
+            toast({
+                title: response.data.message 
+            });
             console.log("Batch added successfully");
             setNewBatchs(response.data.data);
             return response.data.data;
         }
         throw new Error(response.data.message);
     } catch (error) {
-
-        console.log("Error in addNewBatch : ", error.message);
-        toast.error(error.message, false);
+        toast({
+            title : error.message || error?.response?.data?.message
+        });
     }
 
 }

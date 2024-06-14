@@ -25,18 +25,21 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getCourseById, addNewBatch , getBatchById} from '../common/apiHandler';
+import { Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 async function getUsers(setData, id) {
   setData(await getBatchById(id));
 }
 
-
 export default function Subject() {
+  const { toast } = useToast();
   const { name } = useParams();
   const [data, setData] = useState([]);
   const [courseInfo, setBatchs] = useState([]);
   const [newBatchs, setNewBatchs] = useState(null);
   const [selectedBatch, setSelectedBatch] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [newBatch, setBatch] = useState(
     {
@@ -46,7 +49,6 @@ export default function Subject() {
     }
   );
 
-
   function handelInputChange(e) {
     const { name, value } = e.target;
     setBatch({
@@ -55,9 +57,10 @@ export default function Subject() {
     });
   }
 
-
   async function addNewbatchTotheCourse() {
-    await addNewBatch(newBatch, name, setNewBatchs);
+    setLoading(true);
+    await addNewBatch(newBatch, name, setNewBatchs, toast);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -70,6 +73,7 @@ export default function Subject() {
   useEffect(() => {
     if(selectedBatch){
       getUsers(setData, selectedBatch);
+      // setSelectedBatch(null);
     }
   },[selectedBatch]);
 
@@ -148,8 +152,16 @@ export default function Subject() {
             <SheetFooter>
               <SheetClose asChild>
                 <Button type="submit"
-                  onClick={addNewbatchTotheCourse}
-                >Save changes</Button>
+                  disabled={loading}
+                  onClick={addNewbatchTotheCourse}>
+                    {
+                      loading ? <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+                      
+                      </> : 'Save changes'
+                    }
+                    
+                  </Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
@@ -160,8 +172,12 @@ export default function Subject() {
         <div className="component">
           <h1 className="font-bold text-3xl mb-4">All student Details</h1>
           {
-            data? 
-            <DataTable columns={columns} data={data} tableType={'student'} /> : <h1>No Data Found</h1>
+            data && selectedBatch && data.length > 1? 
+            <DataTable columns={columns} data={data} tableType={'student'} /> 
+            :
+            data?.length === 0 ? 
+            <h4 className="text-2xl text-center">No Students Found</h4> :
+            <h4 className="text-2xl text-center">Select a batch to view students</h4>
           }
         </div>
       </section>
