@@ -34,7 +34,7 @@ async function getUsers(setData, id) {
 export default function Subject() {
   const { name } = useParams();
   const [data, setData] = useState([]);
-  const [batchs, setBatchs] = useState([]);
+  const [courseInfo, setBatchs] = useState([]);
   const [newBatchs, setNewBatchs] = useState(null);
   const [selectedBatch, setSelectedBatch] = useState(null);
 
@@ -65,7 +65,7 @@ export default function Subject() {
       setBatchs(data);
     });
 
-  }, [newBatchs]);
+  }, [newBatchs,name]);
 
   useEffect(() => {
     if(selectedBatch){
@@ -76,7 +76,7 @@ export default function Subject() {
 
   return (
     <div className="py-15 w-[100%] mr-10">
-      <h1 className="font-bold text-3xl mb-4">DSA Course</h1>
+      <h1 className="font-bold text-3xl mb-4">{courseInfo?.title}</h1>
       <div className="flex justify-between">
         <div className="flex flex-col w-[30%]  space-y-1.5">
           <Label className="text-2xl" htmlFor="framework">Batch</Label>
@@ -89,7 +89,7 @@ export default function Subject() {
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent position="popper">
-              {batchs?.batches?.map((batch) => (
+              {courseInfo?.batches?.map((batch) => (
                 <SelectItem
                   key={batch._id}
                   value={batch._id}
