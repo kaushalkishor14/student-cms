@@ -4,11 +4,13 @@ import { UsersRound, Users2, User2, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { CourseNames } from '../common/apiHandler'; // Ensure this path is correct
 import { generateLinks } from "@/utlity/dynamic.nav"; // Ensure this path is correct
+import { useAuth } from "@/common/AuthProvider";
 
 export function SidebarButton({ active, value }) {
+  const {loading, setLoding } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [courseName, setCourseNames] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [_, setLoading] = useState(false);
   const [links, setLinks] = useState([]);
 
   const toggleSidebar = () => {
@@ -17,9 +19,7 @@ export function SidebarButton({ active, value }) {
 
   const fetchCourseNames = async () => {
     try {
-      // setLoading(true);
       await CourseNames(setCourseNames, setLoading);
-      // setLoading(false);
     } catch (error) {
       console.error('Failed to fetch course names:', error);
     }
@@ -27,7 +27,7 @@ export function SidebarButton({ active, value }) {
 
   useEffect(() => {
     fetchCourseNames();
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
     if (courseName.length > 0) {

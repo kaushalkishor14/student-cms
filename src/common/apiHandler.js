@@ -216,10 +216,6 @@ export async function CourseNames(setCourseName, setLoading) {
         setLoading(true);
         let newToken = await checkingTokenExpiry();
 
-        if (!newToken) {
-            newToken = JSON.parse(localStorage.getItem('accessToken'));
-        }
-
         const response = await axios.get(`${params?.CourseURL}/getCourse`, {
             withCredentials: true,
             headers: {
@@ -242,14 +238,10 @@ export async function CourseNames(setCourseName, setLoading) {
     }
 }
 
-
-export async function AddCourse(courseDetail, setLoading, navigate) {
+export async function AddCourse(courseDetail, toast) {
     try {
-        setLoading(true);
+
         let newToken = await checkingTokenExpiry();
-        if (!newToken) {
-            newToken = JSON.parse(localStorage.getItem('accessToken'));
-        }
 
         const response = await axios.post(`${params?.CourseURL}/addCourse`, courseDetail, {
             withCredentials: true,
@@ -261,15 +253,17 @@ export async function AddCourse(courseDetail, setLoading, navigate) {
 
         if (response.status === 200) {
             notify(response.data.message, { type: true });
-            navigate('/course');
-            setLoading(false);
-            return;
+            // navigate('/course');
+            toast({
+                title:response.data.message
+            });
+            return response.data.data;
         }
-        setLoading(false);
         throw new Error(response.data.message);
     } catch (error) {
-        toast.error(error.message, false);
-        setLoading(false);
+        toast({
+            title:error.message || error?.response?.data?.message
+        });
     }
 }
 

@@ -20,8 +20,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { userById, CourseNames ,AddCourse} from "../common/apiHandler";
-import AddCourseModal from "../components/AddCourseModal"; 
+import { userById, CourseNames, AddCourse } from "../common/apiHandler";
+import AddCourseModal from "../components/AddCourseModal";
+import { useAuth } from "@/common/AuthProvider";
 const invoices = [
   {
     title: "Dsa",
@@ -44,7 +45,8 @@ const course = () => {
   const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
   const [newCourse, setNewCourse] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [_, setLoading] = useState(false);
+  const { loading } = useAuth();
 
   //get data
   const [addCourses, setAddCourse] = useState([]);
@@ -53,16 +55,15 @@ const course = () => {
     CourseNames(setAddCourse, setLoading).then((data) => {
       setAddCourse(data);
     });
-  }, []);
+  }, [loading]);
 
-  const addCourse = async(course) => {
-    
+  const addCourse = async (course) => {
     if (newCourse.trim()) {
       setCourses([...courses, newCourse]);
       const newCourse = await AddCourse(course); // Call the AddCourse API function
       setNewCourse("");
       setIsModalOpen(false);
-      setAddCourse([...addCourses, course]); 
+      setAddCourse([...addCourses, course]);
     }
   };
 
@@ -101,16 +102,23 @@ const course = () => {
             {addCourses.map((data, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{data.title}</TableCell>
-                
-                <TableCell key={index} className="flex gap-3"> 
-                {data.tags.map((tag, index) => (
-                  
-                  <p key={index}> {tag} </p>
-                ))}
+
+                <TableCell key={index} className="flex gap-3">
+                  {data.tags.map((tag, index) => (
+
+                    <p key={index}> {tag} </p>
+                  ))}
                 </TableCell>
 
 
                 <TableCell>{data.description}</TableCell>
+
+                <TableCell>
+                  <span className="flex gap-2">
+                    <Button>Edit</Button>
+                    <Button>Delete</Button>
+                  </span>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -119,7 +127,6 @@ const course = () => {
       <AddCourseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={addCourse}
       />
     </div>
   );
