@@ -1,25 +1,12 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { userById } from "../../common/apiHandler";
 import { Pencil } from "lucide-react";
-export const student = {
-  id: "S123456",
-  name: "John Doe",
-  email: "john.doe@example.com",
-  address: "123 Main St, Anytown, CA",
-};
+import { useParams } from "react-router-dom";
 
 export const courses = [
   {
@@ -48,18 +35,36 @@ export const results = [
   },
   // Add more results as needed
 ];
+const getUserByid = async (id, setdata) => {
+  const response = await userById(id);
+  setdata(response);
+};
 
 export default function ProfilePage() {
+  const { id } = useParams();
+  // cll data through api
+
+  const [student, setStudent] = useState({});
+  const [loading, setLoading] = useState(false);
+  // const [courses, setCourses] = useState([]);
+  // const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    getUserByid(id, setStudent);
+    setLoading(false);
+  }, []);
+
+  console.log(student, "idsn");
   return (
     <div>
       <h1 className="text-3xl font-semibold">Student Profile Page</h1>
       <Card className="w-full mt-4 mb-4">
-        <CardHeader>{/* You can add any header content here */}</CardHeader>
         <CardContent>
           <div className="flex">
             <div className="w-1/4 flex items-center justify-center ">
               <img
-                src="https://github.com/shadcn.png"
+                src={student?.profilePicture || "https://github.com/shadcn.png"}
                 alt="@shadcn"
                 className="w-26 h-24 rounded-sm "
               />
@@ -67,20 +72,17 @@ export default function ProfilePage() {
             <div className="w-3/4 grid items-center gap-4 ml-4 p-1">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name" className="text-3xl font-semibold">
-                  kaushal kishor
+                  {student?.name}
                 </Label>
-                <h1 className="text-xl ">Course</h1>
-                <h2 className="text-lg t">Batch</h2>
+                <h1 className="text-xl ">{student?.courseId?.title}</h1>
+                <h2 className="text-lg t">{student?.batchId?.batchName}</h2>
               </div>
 
               <Button type="submit" className="gap-2 w-1/6">
                 <Pencil className="h-4 w-4 text-white " />
                 Edit Profile
               </Button>
-              {/* <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="framework">Framework</Label>
-                 
-                </div> */}
+              
             </div>
           </div>
         </CardContent>
@@ -94,25 +96,25 @@ export default function ProfilePage() {
           <TabsTrigger value="Subject">Subject</TabsTrigger>
           <TabsTrigger value="result">Results</TabsTrigger>
         </TabsList>
-        <TabsContent className="w-full" value="information" >
+        <TabsContent className="w-full" value="information">
           <section className="bg-white shadow-md rounded-lg p-6 mb-6">
             <h2 className="text-2xl font-bold mb-4">Personal Details</h2>
             <p className="">
-              <strong >Name:</strong> {student.name}
+              <strong>Name:</strong> {student?.name}
             </p>
             <p>
-              <strong>ID:</strong> {student.id}
+              <strong>ID:</strong> {student?._id}
             </p>
             <p>
-              <strong>Email:</strong> {student.email}
+              <strong>Email:</strong> {student?.email}
             </p>
             <p>
-              <strong>Address:</strong> {student.address}
+              <strong>isApproved:</strong> {student?.isApproved ?  "Yes" : "No"}
             </p>
           </section>
         </TabsContent>
 
-        <TabsContent className="w-full" value="result" >
+        <TabsContent className="w-full" value="result">
           <section className="bg-white shadow-md rounded-lg p-6 mb-6">
             <h2 className="text-2xl font-bold mb-4">Student Results</h2>
             <table className="w-full border-collapse border border-gray-200">
@@ -144,20 +146,31 @@ export default function ProfilePage() {
           </section>
         </TabsContent>
 
-        <TabsContent className=" w-full" value="Subject"> <section className="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Courses Enrolled</h2>
-        <ul>
-          {courses.map(course => (
-            <li key={course.id} className="mb-4">
-              <h3 className="text-xl font-bold">{course.name}</h3>
-              <p><strong>Course Code:</strong> {course.code}</p>
-              <p><strong>Instructor:</strong> {course.instructor}</p>
-              <p><strong>Schedule:</strong> {course.schedule}</p>
-              <p><strong>Status:</strong> {course.status}</p>
-            </li>
-          ))}
-        </ul>
-      </section></TabsContent>
+        <TabsContent className=" w-full" value="Subject">
+          {" "}
+          <section className="bg-white shadow-md rounded-lg p-6 mb-6">
+            <h2 className="text-2xl font-bold mb-4">Courses Enrolled</h2>
+            <ul>
+              {courses.map((course) => (
+                <li key={course.id} className="mb-4">
+                  <h3 className="text-xl font-bold">{course.name}</h3>
+                  <p>
+                    <strong>Course Code:</strong> {course.code}
+                  </p>
+                  <p>
+                    <strong>Instructor:</strong> {course.instructor}
+                  </p>
+                  <p>
+                    <strong>Schedule:</strong> {course.schedule}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {course.status}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </TabsContent>
       </Tabs>
     </div>
   );

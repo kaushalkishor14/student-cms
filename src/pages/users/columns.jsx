@@ -93,7 +93,7 @@ export const columns = [
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem  onClick={() => navigate('/profile-page')} >View Student Details</DropdownMenuItem>
+            <DropdownMenuItem  onClick={() => navigate('/profile-page/'+users._id)} >View Student Details</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
