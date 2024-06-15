@@ -19,6 +19,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Pencil, Trash2 } from "lucide-react";
 
 import { userById, CourseNames, AddCourse } from "../common/apiHandler";
 import AddCourseModal from "../components/AddCourseModal";
@@ -115,8 +127,34 @@ const course = () => {
 
                 <TableCell>
                   <span className="flex gap-2">
-                    <Button>Edit</Button>
-                    <Button>Delete</Button>
+                    <Button size="icon"   variant="ghost" >  <Pencil onClick={() => setIsModalOpen(true)} className="h-4 w-4 " /></Button>
+                    <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  type="submit"
+                  
+                >
+                  <Trash2 className="h-4 w-4 " />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your record and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => DeleteRecord(data._id)}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
                   </span>
                 </TableCell>
               </TableRow>

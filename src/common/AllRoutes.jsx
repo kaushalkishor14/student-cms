@@ -26,6 +26,7 @@ function AllRoutes() {
             <Route path="*" element={<Dashboard />} />
             <Route path="/teacher-form/create" element={<TeacherForm />}> </Route>
             <Route path="/teacher-form?/:id" element={<TeacherForm initialData={1}/>}> </Route>
+            <Route path='/profile-page' element={<ProfilePage/>} />
           </>
         ) : (
           <>
@@ -34,7 +35,7 @@ function AllRoutes() {
           </>
         )}
       </>
-      <Route path='/profile-page' element={<ProfilePage/>} />
+    
       
     </Routes>
   );

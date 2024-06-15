@@ -61,7 +61,16 @@ export default function ProfilePage() {
     <TabsTrigger value="information">Information</TabsTrigger>
     <TabsTrigger value="Subject">Subject</TabsTrigger>
   </TabsList>
-  <TabsContent value="information">See your  account information here.</TabsContent>
+  <TabsContent value="information" className="bg-slate-400 flex gap-3 items-center">
+    <h1 className="text-xl  font-primary ">Personal information </h1>
+    <div className="items-center">
+      <h2>name: kaushal</h2>
+      <h3>Mobile: 7903315657</h3>
+      <p>Gender: male</p>
+      <p>D.O.B: 0000-00-00</p>
+      </div>
+      
+    </TabsContent>
   <TabsContent value="Subject">See your subject here.</TabsContent>
 </Tabs>
 

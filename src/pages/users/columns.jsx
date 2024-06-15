@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useNavigate } from 'react-router-dom';
  
 
 export const columns = [
@@ -75,7 +76,7 @@ export const columns = [
     id: "actions",
     cell: ({ row }) => {
       const users = row.original
- 
+      const navigate = useNavigate();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -92,7 +93,7 @@ export const columns = [
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem  >View customer</DropdownMenuItem>
+            <DropdownMenuItem  onClick={() => navigate('/profile-page')} >View Student Details</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
