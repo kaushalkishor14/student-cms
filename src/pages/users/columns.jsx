@@ -90,11 +90,10 @@ export const columns = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(users._id)}
             >
-              Copy payment ID
+              Copy Student ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem  onClick={() => navigate('/profile-page/'+users._id)} >View Student Details</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
