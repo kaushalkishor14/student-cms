@@ -30,36 +30,33 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Pencil, Trash2 } from "lucide-react";
+import { Loader2, Pencil, Trash2 } from "lucide-react";
 
-import { userById, CourseNames, AddCourse } from "../common/apiHandler";
+import { userById, CourseNames, AddCourse, deleteCourseById } from "../common/apiHandler";
 import AddCourseModal from "../components/AddCourseModal";
 import { useAuth } from "@/common/AuthProvider";
-const invoices = [
-  {
-    title: "Dsa",
-    tags: "C++",
-    Batches: "8",
-  },
-  {
-    title: "Pythan",
-    tags: "pythan",
-    Batches: "$150.00",
-  },
-  {
-    title: "Web-D",
-    tags: "html, css , javascripts",
-    Batches: "$350.00",
-  },
-];
+import { useToast } from "../components/ui/use-toast";
+
+
+// Import Statement end here ================================================================
+
+
+const DeleteRecord = async (id, setDeleted, toast,setDelLoading) => {
+  setDelLoading(true);
+  const response = await deleteCourseById(id, toast);
+  setDeleted(response);
+  setDelLoading(false);
+};
 
 const course = () => {
+  const { toast } = useToast();
   const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
   const [newCourse, setNewCourse] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [_, setLoading] = useState(false);
+  const [load, setLoading] = useState(false);
   const { loading } = useAuth();
-
+  const [deleted, setDeleted] = useState(false);
+  const [delLoading, setDelLoading] = useState(false);
   //get data
   const [addCourses, setAddCourse] = useState([]);
 
@@ -67,7 +64,7 @@ const course = () => {
     CourseNames(setAddCourse, setLoading).then((data) => {
       setAddCourse(data);
     });
-  }, [loading]);
+  }, [loading, deleted]);
 
   const addCourse = async (course) => {
     if (newCourse.trim()) {
@@ -117,44 +114,50 @@ const course = () => {
 
                 <TableCell key={index} className="flex gap-3">
                   {data.tags.map((tag, index) => (
-
                     <p key={index}> {tag} </p>
                   ))}
                 </TableCell>
-
-
                 <TableCell>{data.description}</TableCell>
 
                 <TableCell>
                   <span className="flex gap-2">
-                    <Button size="icon"   variant="ghost" >  <Pencil onClick={() => setIsModalOpen(true)} className="h-4 w-4 " /></Button>
+                    <Button size="icon" variant="ghost" >  <Pencil onClick={() => setIsModalOpen(true)} className="h-4 w-4 " /></Button>
                     <AlertDialog>
-              <AlertDialogTrigger>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="submit"
-                  
-                >
-                  <Trash2 className="h-4 w-4 " />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your record and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => DeleteRecord(data._id)}>
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                      <AlertDialogTrigger>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          type="submit"
+
+                        >
+                          <Trash2 className="h-4 w-4 " />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete
+                            your record and remove your data from our servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            disabled={delLoading}
+                            onClick={() => DeleteRecord(data._id, setDeleted, toast, setDelLoading)}>
+                              {
+                                delLoading ? 
+                                  <>
+                                    <Loader2 className="w-6 h-6 animate-spin" /> Deleting...
+                                  </>
+                                : "Delete"
+                              }
+
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </span>
                 </TableCell>
               </TableRow>

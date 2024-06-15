@@ -473,3 +473,27 @@ export async function addNewTeacher(teacherDetail, file, toast) {
         })
     }
 }
+
+export async function deleteCourseById(id, toast){
+    try {
+        let token = await checkingTokenExpiry();
+        const response = await axios.delete(`${params?.CourseURL}/deleteCourse/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            withCredentials: true,
+        });
+        if (response.status === 200) {
+            console.log("Course deleted successfully ", response?.data?.message);
+            toast({
+                title:response?.data?.message
+            });
+            return response.data.data;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        console.log("Error in deleteCourseById : ", error.message);
+        toast({title: error?.response?.data?.message || error.message});
+    }
+}
