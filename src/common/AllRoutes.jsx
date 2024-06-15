@@ -8,6 +8,7 @@ import Subject from '@/pages/Subject'
 import Dashboard from "@/pages/Dashboard";
 import Course from "@/pages/Course";
 import {TeacherForm} from "@/components/teacher-page/teacher-form";
+import ProfilePage from "../pages/users/profilePage"
 
 
 function AllRoutes() {
@@ -33,7 +34,8 @@ function AllRoutes() {
           </>
         )}
       </>
-      {/* <Route path='/teacher-from' element={<TeacherForm/>} /> */}
+      <Route path='/profile-page' element={<ProfilePage/>} />
+      
     </Routes>
   );
 }
