@@ -84,7 +84,7 @@ export const TeacherForm = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const title = initialData ? "Edit Teacher" : "Create Teacher";
   const description = initialData ? "Edit a teacher" : "Create a new teacher";
@@ -96,8 +96,8 @@ export const TeacherForm = ({ initialData }) => {
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
     defaultValues: initialData || {
-      firstName: "",
-      lastName: "",
+      name: "",
+      email: "",
       batch: "",
       course: "",
     },
@@ -117,7 +117,7 @@ export const TeacherForm = ({ initialData }) => {
 
   // Handle file input change to update the avatar image
   const handleFileChange = (event) => {
-    setFile( event.target.files[0]);
+    setFile(event.target.files[0]);
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -136,8 +136,7 @@ export const TeacherForm = ({ initialData }) => {
       setAvatarUrl('https://github.com/shadcn.png'); // Reset the avatar image
       form.setValue("course", "");
       form.setValue("batch", "");
-      form.setValue("firstName", "");
-      form.setValue("lastName", "");
+      form.setValue("name", "");
       form.setValue("email", "");
       form.reset();
       setIsSubmitting(false);
@@ -195,20 +194,19 @@ export const TeacherForm = ({ initialData }) => {
   }, []);
 
   useEffect(() => {
-    if (isNaN(Number(id)) === false) {
+    if (id) {
       userById(id).then((data) => {
-        form.setValue("firstName", data?.name);
+        form.setValue("name", data?.name);
         form.setValue("email", data?.email);
-        form.setValue("batch", data?.batchId);
-        form.setValue("course", data?.courseId);
+        form.setValue("batch", data?.batchId?.batchName);
+        form.setValue("course", data?.courseId.title);
       });
     }
-  }, []);
+  }, [id]);
 
 
   return (
     <>
-
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -235,7 +233,7 @@ export const TeacherForm = ({ initialData }) => {
           <div className="grid-cols-4 gap-8 md:grid">
             <FormField
               control={form.control}
-              name="firstName"
+              name="file"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="m-auto">Upload Profile Picture</FormLabel>
@@ -263,7 +261,7 @@ export const TeacherForm = ({ initialData }) => {
             {/* Image uploader End  */}
             <FormField
               control={form.control}
-              name="firstName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -308,7 +306,7 @@ export const TeacherForm = ({ initialData }) => {
                         field.onChange(e);
                         setSelectCourse(e);
                       }}
-                      value={field?.value}
+                      value={field?.value.course}
                       defaultValue={field?.value}
                     >
                       <FormControl>
@@ -353,10 +351,26 @@ export const TeacherForm = ({ initialData }) => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue
-                            defaultValue={field?.value?.batchName}
-                            placeholder="Batch"
-                          />
+                          {
+                            id ?
+                              <>
+                                {console.log('field value is ', field)}
+
+                                <SelectValue
+                                  defaultValue={field?.value?.batch}
+                                  placeholder="Batch"
+                                />
+                              </>
+                              :
+                              <>
+                                <>
+                                  <SelectValue
+                                    defaultValue={field?.value?.batchName}
+                                    placeholder="Batch"
+                                  />
+                                </>
+                              </>
+                          }
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -390,12 +404,12 @@ export const TeacherForm = ({ initialData }) => {
               onClick={() => onSubmit(form.getValues())}
             >
               {
-                isSubmitting ? 
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-                : action
+                isSubmitting ?
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                  : action
               }
             </Button>
             <Button

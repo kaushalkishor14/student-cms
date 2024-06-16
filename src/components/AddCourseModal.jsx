@@ -16,9 +16,11 @@ import {
   import { Loader2 } from "lucide-react";
   import { useToast } from "./ui/use-toast";
   import { useAuth } from "@/common/AuthProvider";
-import { set } from "date-fns";
+import { add, set } from "date-fns";
 
-const AddCourseModal = ({ isOpen, onClose}) => {
+const AddCourseModal = ({ isOpen, onClose, addCourses=[]}) => {
+
+  console.log("if i am getting the right course ", addCourses)
   const {toast} = useToast();
   const { setLoding } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -41,6 +43,9 @@ const AddCourseModal = ({ isOpen, onClose}) => {
     }
   };
 
+
+  
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
@@ -50,7 +55,7 @@ const AddCourseModal = ({ isOpen, onClose}) => {
           <label className="block text-sm font-medium text-gray-700">Title</label>
           <Input
             type="text"
-            value={title}
+            value={addCourses[0]?.title || title}
             onChange={(e) => setTitle(e.target.value)}
             className="mt-1 block w-full"
           />
@@ -59,7 +64,7 @@ const AddCourseModal = ({ isOpen, onClose}) => {
           <label className="block text-sm font-medium text-gray-700">Tags</label>
           <Input
             type="text"
-            value={tags}
+            value={addCourses[0]?.tags || tags}
             onChange={(e) => setTags(e.target.value)}
             className="mt-1 block w-full"
           />
@@ -67,7 +72,7 @@ const AddCourseModal = ({ isOpen, onClose}) => {
         <div className="mt-4">
           <label className="block text-sm font-medium text-gray-700">Description</label>
           <Textarea
-            value={description}
+            value={addCourses[0]?.description || description}
             onChange={(e) => setDescription(e.target.value)}
             className="mt-1 block w-full"
           />

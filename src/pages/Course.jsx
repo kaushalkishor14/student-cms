@@ -41,11 +41,13 @@ import { useToast } from "../components/ui/use-toast";
 // Import Statement end here ================================================================
 
 
-const DeleteRecord = async (id, setDeleted, toast,setDelLoading) => {
+const DeleteRecord = async (id, setDeleted, toast,setDelLoading, setLoding) => {
+  setLoding(true);
   setDelLoading(true);
   const response = await deleteCourseById(id, toast);
   setDeleted(response);
   setDelLoading(false);
+  setLoding(false);
 };
 
 const course = () => {
@@ -54,10 +56,10 @@ const course = () => {
   const [newCourse, setNewCourse] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [load, setLoading] = useState(false);
-  const { loading } = useAuth();
+  const { loading , setLoding} = useAuth();
   const [deleted, setDeleted] = useState(false);
   const [delLoading, setDelLoading] = useState(false);
-  //get data
+  const [courseID, setCourseID] = useState(null);
   const [addCourses, setAddCourse] = useState([]);
 
   useEffect(() => {
@@ -121,14 +123,17 @@ const course = () => {
 
                 <TableCell>
                   <span className="flex gap-2">
-                    <Button size="icon" variant="ghost" >  <Pencil onClick={() => setIsModalOpen(true)} className="h-4 w-4 " /></Button>
+                    <Button size="icon" variant="ghost" >  
+                      <Pencil onClick={() => {
+                        setIsModalOpen(true)
+                        setCourseID(data._id)
+                    }} className="h-4 w-4 " /></Button>
                     <AlertDialog>
                       <AlertDialogTrigger>
                         <Button
                           variant="ghost"
                           size="icon"
                           type="submit"
-
                         >
                           <Trash2 className="h-4 w-4 " />
                         </Button>
@@ -145,7 +150,7 @@ const course = () => {
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
                           <AlertDialogAction
                             disabled={delLoading}
-                            onClick={() => DeleteRecord(data._id, setDeleted, toast, setDelLoading)}>
+                            onClick={() => DeleteRecord(data._id, setDeleted, toast, setDelLoading, setLoding)}>
                               {
                                 delLoading ? 
                                   <>
@@ -168,6 +173,7 @@ const course = () => {
       <AddCourseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        addCourses={ addCourses.filter((course) => course._id === courseID) }
       />
     </div>
   );
