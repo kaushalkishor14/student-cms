@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import params from './params.json';
 import axios from 'axios';
-import course from "@/pages/Course";
 import { generatePassword2 } from "@/utlity/passwordGenrator";
 
 // function to notify user
@@ -495,5 +494,30 @@ export async function deleteCourseById(id, toast){
     } catch (error) {
         console.log("Error in deleteCourseById : ", error.message);
         toast({title: error?.response?.data?.message || error.message});
+    }
+}
+
+
+export async function updateCourseById(data , id, toast){
+    try {
+        let token = await checkingTokenExpiry();
+        const response = await axios.put(`${params?.CourseURL}/updateCourse/${id}`, data , {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+            withCredentials: true,
+        });
+        if (response.status === 200) {
+            toast({
+                title:response.data.message
+            });
+            return response.data.data;
+        }
+        throw new Error(response.data.message);
+    } catch (error) {
+        toast({
+            title:error.message || error?.response?.data?.message
+        });
     }
 }

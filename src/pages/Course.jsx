@@ -50,7 +50,7 @@ const DeleteRecord = async (id, setDeleted, toast,setDelLoading, setLoding) => {
   setLoding(false);
 };
 
-const course = () => {
+const Course = () => {
   const { toast } = useToast();
   const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
   const [newCourse, setNewCourse] = useState("");
@@ -95,7 +95,10 @@ const course = () => {
       </div>
 
       <div className="mt-4 mb-2">
-        <Button onClick={() => setIsModalOpen(true)}>Add Course</Button>
+        <Button onClick={() => {
+          setIsModalOpen(true)
+          setCourseID(null)  
+        }}>Add Course</Button>
       </div>
       <Separator />
 
@@ -123,11 +126,11 @@ const course = () => {
 
                 <TableCell>
                   <span className="flex gap-2">
-                    <Button size="icon" variant="ghost" >  
-                      <Pencil onClick={() => {
+                    <Button size="icon" variant="ghost"  onClick={() => {
                         setIsModalOpen(true)
                         setCourseID(data._id)
-                    }} className="h-4 w-4 " /></Button>
+                    }}>  
+                      <Pencil  className="h-4 w-4 "/></Button>
                     <AlertDialog>
                       <AlertDialogTrigger>
                         <Button
@@ -173,10 +176,10 @@ const course = () => {
       <AddCourseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        addCourses={ addCourses.filter((course) => course._id === courseID) }
+        addCourses={courseID? addCourses.filter((course) => course._id === courseID).pop() : null}
       />
     </div>
   );
 };
 
-export default course;
+export default Course;
