@@ -80,7 +80,7 @@ export default function ProfilePage() {
 
               <Button type="submit" className="gap-2 w-1/6">
                 <Pencil className="h-4 w-4 text-white " />
-                Edit Profile
+                Edit Profile 
               </Button>
               
             </div>
