@@ -200,6 +200,7 @@ export const TeacherForm = ({ initialData }) => {
         form.setValue("email", data?.email);
         form.setValue("batch", data?.batchId?.batchName);
         form.setValue("course", data?.courseId.title);
+        setAvatarUrl(data?.profilePicture);
       });
     }
   }, [id]);
@@ -306,7 +307,7 @@ export const TeacherForm = ({ initialData }) => {
                         field.onChange(e);
                         setSelectCourse(e);
                       }}
-                      value={field?.value.course}
+                      value={field?.value?.course}
                       defaultValue={field?.value}
                     >
                       <FormControl>
