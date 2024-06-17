@@ -1,7 +1,7 @@
 import React from "react";
 
 import { EmployeeClient } from "../components/teacher-page/button";
-import { useEffect } from "react";
+import { useEffect , useCallback} from "react";
 import params from "../common/params";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -24,15 +24,34 @@ async function getUsers(setData) {
     },
   });
   setData(response?.data?.data?.users);
+  // // Store the data in localStorage
+  // localStorage.setItem('cachedUsers', JSON.stringify(users));
+  // // Set the timestamp
+  // localStorage.setItem('cacheTimestamp', Date.now());
 }
 
 export default function Teacher() {
   const {deleteUserData} = useAuth();
   
   const [data, setData] = React.useState([]);
+
+
+  const fetchData = useCallback(() => {
+    const cachedUsers = JSON.parse(localStorage.getItem('cachedUsers'));
+    const cacheTimestamp = localStorage.getItem('cacheTimestamp');
+    const cacheDuration = 1000 * 60 * 10; // 10 minutes
+
+    if (cachedUsers && cacheTimestamp && (Date.now() - cacheTimestamp < cacheDuration)) {
+      setData(cachedUsers);
+    } else {
+      getUsers(setData);
+    }
+  }, []);
+
+
   useEffect(() => {
-    getUsers(setData);
-  }, [deleteUserData]);
+    fetchData();
+  }, [deleteUserData, fetchData]);
 
   return (
     <div className="py-15 w-[100%] mr-10">

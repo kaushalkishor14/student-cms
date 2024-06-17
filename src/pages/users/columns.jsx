@@ -93,7 +93,7 @@ export const columns = [
               Copy Student ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem  onClick={() => navigate('/profile-page/'+users._id)} >View Student Details</DropdownMenuItem>
+            <DropdownMenuItem  onClick={() => navigate('/student/user-detail/'+users._id)} >View Student Details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

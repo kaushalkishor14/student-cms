@@ -80,40 +80,10 @@ export function Nav({ links, isCollapsed }) {
 
 
               <>
-                {
-                  link.title === "Dashboard" ? (
-                    <Link to={link?.href}>
-                      <Button
-                        key={index}
-                        onClick={link.onClick}
-                        className={cn(
-                          buttonVariants({ variant: link.variant, size: "sm" }),
-                          link.variant === "default" &&
-                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                          "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
-                        )}
-                      >
-                        <link.icon className="mr-2 h-4 w-4" />
-                        {link.title}
-                        {link.label && (
-                          <span
-                            className={cn(
-                              "ml-auto",
-                              link.variant === "default" &&
-                              "text-background dark:text-white"
-                            )}
-                          >
-                            {link.label}
-                          </span>
-                        )}
-                      </Button>
-                    </Link>
-                  ) : null
-
-                }
 
                 {
-                  link.title !== "Dashboard" ?
+                  link.title !== "Dashboard"&& link?.subRoute?.length > 0  ?
+
                     <Accordion type="single" collapsible className="w-[80px]">
                       <AccordionItem value="item-1">
                         <AccordionTrigger>
@@ -169,7 +139,7 @@ export function Nav({ links, isCollapsed }) {
 
                               // This is the button component option if u want to use button component
                               <>
-                                
+
                                 {
                                   link?.subRoute?.map((sublink, index) => (
                                     <Link to={sublink?.href}>
@@ -193,9 +163,36 @@ export function Nav({ links, isCollapsed }) {
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
-                    : null
-                }
 
+                    :
+
+                    <Link to={link?.href}>
+                      <button
+                        key={index}
+                        onClick={link.onClick}
+                        className={cn(
+                          buttonVariants({ variant: link.variant, size: "sm" }),
+                          link.variant === "default" &&
+                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                          "justify-start w-full text-left px-4 py-2 rounded-lg mr-3"
+                        )}
+                      >
+                        <link.icon className="mr-2 h-4 w-4" />
+                        {link.title}
+                        {link.label && (
+                          <span
+                            className={cn(
+                              "ml-auto",
+                              link.variant === "default" &&
+                              "text-background dark:text-white"
+                            )}
+                          >
+                            {link.label}
+                          </span>
+                        )}
+                      </button>
+                    </Link>
+                }
               </>
             )
           )}
