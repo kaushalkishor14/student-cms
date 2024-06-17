@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Loader2, Pencil, Trash2 } from "lucide-react";
 
-import { userById, CourseNames, AddCourse, deleteCourseById } from "../common/apiHandler";
+import { CourseNames, AddCourse, deleteCourseById } from "../common/apiHandler";
 import AddCourseModal from "../components/AddCourseModal";
 import { useAuth } from "@/common/AuthProvider";
 import { useToast } from "../components/ui/use-toast";
@@ -50,7 +50,7 @@ const DeleteRecord = async (id, setDeleted, toast,setDelLoading, setLoding) => {
   setLoding(false);
 };
 
-const Course = () => {
+export default function Course(){
   const { toast } = useToast();
   const [courses, setCourses] = useState(["DSA", "Web Development", "Python"]);
   const [newCourse, setNewCourse] = useState("");
@@ -82,13 +82,14 @@ const Course = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Course Details</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
-        {courses.map((course, index) => (
+        {addCourses.map((course, index) => (
           <Card key={index} className="">
             <CardHeader>
-              <CardTitle>{course}</CardTitle>
+              <CardTitle>{course?.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Details about the {course} course.</p>
+              <p>Details about the {course?.title} course.</p>
+              <p>Number of Student in the course is <span className="text-2xl text-blue-400"> {course?.batches.length} </span> Students.</p>
             </CardContent>
           </Card>
         ))}
@@ -113,22 +114,26 @@ const Course = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {addCourses.map((data, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">{data.title}</TableCell>
+            {addCourses?.map((data, index) => (
+              <TableRow key={index} >
+                <TableCell className="font-medium text-center">{data?.title}</TableCell>
+                
+                  <TableCell key={index} className="flex gap-2 m-auto">
+                    {data?.tags?.map((tag, index) => (
+                      // <p key={index}> {tag} </p>
+                      <span key={index} className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full text-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </TableCell>
 
-                <TableCell key={index} className="flex gap-3">
-                  {data.tags.map((tag, index) => (
-                    <p key={index}> {tag} </p>
-                  ))}
-                </TableCell>
-                <TableCell>{data.description}</TableCell>
+                <TableCell>{data?.description}</TableCell>
 
                 <TableCell>
                   <span className="flex gap-2">
                     <Button size="icon" variant="ghost"  onClick={() => {
                         setIsModalOpen(true)
-                        setCourseID(data._id)
+                        setCourseID(data?._id)
                     }}>  
                       <Pencil  className="h-4 w-4 "/></Button>
                     <AlertDialog>
@@ -176,10 +181,8 @@ const Course = () => {
       <AddCourseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        addCourses={courseID? addCourses.filter((course) => course._id === courseID).pop() : null}
+        addCourses={courseID? addCourses?.filter((course) => course._id === courseID).pop() : null}
       />
     </div>
   );
 };
-
-export default Course;
